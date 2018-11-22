@@ -1,8 +1,6 @@
 # simple-react-full-stack
 
-[![Build Status](https://travis-ci.org/crsandeep/simple-react-full-stack.svg?branch=master)](https://travis-ci.org/crsandeep/simple-react-full-stack)
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/crsandeep/simple-react-full-stack.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/gal1419/HalNet-Server.svg?branch=master)](https://travis-ci.org/gal1419/HalNet-Server)
 
 This is a boilerplate to build a full stack web application using React, Node.js, Express and Webpack. It is also configured with webpack-dev-server, eslint, prettier and babel.
 
@@ -233,19 +231,18 @@ Express is a web application framework for Node.js. It is used to build our back
 src/server/index.js is the entry point to the server application. Below is the src/server/index.js file
 
 ```javascript
-const express = require("express");
-const os = require("os");
-
-const app = express();
-
-app.use(express.static("dist"));
-app.get("/api/getUsername", (req, res) =>
-  res.send({ username: os.userInfo().username })
-);
-app.listen(8080, () => console.log("Listening on port 8080!"));
+server.listen(app.get("port"), () => {
+  console.log(
+    "%s App is running at http://localhost:%d in %s mode",
+    chalk.green("✓"),
+    app.get("port"),
+    app.get("env")
+  );
+  console.log("  Press CTRL-C to stop\n");
+});
 ```
 
-This starts a server and listens on port 8080 for connections. The app responds with `{username: <username>}` for requests to the URL (/api/getUsername). It is also configured to serve the static files from **dist** directory.
+This starts a server and listens on port 5000 for connections. It is also configured to serve the static files from **dist** directory.
 
 ### Concurrently
 
