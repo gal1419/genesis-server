@@ -12,9 +12,6 @@
     "no-shadow": "off",
     "consistent-return": "off",
     "no-param-reassign": "off",
-    "no-plusplus": "off",
-    "react/destructuring-assignment": "off",
-    "react/prop-types": "off",
-    "react/button-has-type": "off"
+    "no-plusplus": "off"
   }
 }
