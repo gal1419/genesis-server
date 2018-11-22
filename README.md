@@ -1,6 +1,7 @@
 # simple-react-full-stack
 
 [![Build Status](https://travis-ci.org/crsandeep/simple-react-full-stack.svg?branch=master)](https://travis-ci.org/crsandeep/simple-react-full-stack)
+
 [![Greenkeeper badge](https://badges.greenkeeper.io/crsandeep/simple-react-full-stack.svg)](https://greenkeeper.io/)
 
 This is a boilerplate to build a full stack web application using React, Node.js, Express and Webpack. It is also configured with webpack-dev-server, eslint, prettier and babel.
@@ -24,9 +25,9 @@ This is a boilerplate to build a full stack web application using React, Node.js
 
 ## Introduction
 
-[Create React App](https://github.com/facebook/create-react-app) is a quick way to get started with React development and it requires no build configuration. But it completely hides the build config which makes it difficult to extend. It also requires some additional work to integrate it with an existing Node.js/Express backend application.
+This project is based on a the [simple-react-full-stack](https://github.com/crsandeep/simple-react-full-stack);
 
-This is a simple full stack [React](https://reactjs.org/) application with a [Node.js](https://nodejs.org/en/) and [Express](https://expressjs.com/) backend. Client side code is written in React and the backend API is written using Express. This application is configured with [Airbnb's ESLint rules](https://github.com/airbnb/javascript) and formatted through [prettier](https://prettier.io/).
+This is a full stack [React](https://reactjs.org/) application with a [Node.js](https://nodejs.org/en/) and [Express](https://expressjs.com/) backend. Client side code is written in React and the backend API is written using Express. This application is configured with [Airbnb's ESLint rules](https://github.com/airbnb/javascript) and formatted through [prettier](https://prettier.io/).
 
 ### Development mode
 
@@ -40,22 +41,25 @@ In the production mode, we will have only 1 server running. All the client side 
 
 ```bash
 # Clone the repository
-git clone https://github.com/crsandeep/simple-react-full-stack
+git clone https://github.com/gal1419/HalNet-Server.git
 
 # Go inside the directory
-cd simple-react-full-stack
+cd HalNet-Server
 
 # Install dependencies
-yarn (or npm install)
+yarn
 
 # Start development server
-yarn dev (or npm run dev)
+yarn dev
 
 # Build for production
-yarn build (or npm run build)
+yarn build
 
 # Start production server
 yarn start (or npm start)
+
+# Clean dependencies
+yarn clean
 ```
 
 ## Documentation
@@ -72,7 +76,13 @@ All the source code will be inside **src** directory. Inside src, there is clien
 
 ```javascript
 {
-    "presets": ["env", "react"]
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties"
+  ]
 }
 ```
 
@@ -118,7 +128,8 @@ module.exports = {
   entry: ["babel-polyfill", "./src/client/index.js"],
   output: {
     path: path.join(__dirname, outputDirectory),
-    filename: "bundle.js"
+    filename: "bundle.js",
+    publicPath: "/"
   },
   module: {
     rules: [
@@ -143,8 +154,18 @@ module.exports = {
     port: 3000,
     open: true,
     proxy: {
-      "/api": "http://localhost:8080"
-    }
+      "/api/**": {
+        target: "http://localhost:5000",
+        secure: false,
+        logLevel: "debug"
+      },
+      "/auth/**": {
+        target: "http://localhost:5000",
+        secure: false,
+        logLevel: "debug"
+      }
+    },
+    historyApiFallback: true
   },
   plugins: [
     new CleanWebpackPlugin([outputDirectory]),
@@ -170,13 +191,23 @@ module.exports = {
 The devServer section of webpack.config.js contains the configuration required to run webpack-dev-server which is given below.
 
 ```javascript
-devServer: {
+  devServer: {
     port: 3000,
     open: true,
     proxy: {
-        "/api": "http://localhost:8080"
-    }
-}
+      '/api/**': {
+        target: 'http://localhost:5000',
+        secure: false,
+        logLevel: 'debug'
+      },
+      '/auth/**': {
+        target: 'http://localhost:5000',
+        secure: false,
+        logLevel: 'debug'
+      }
+    },
+    historyApiFallback: true
+  }
 ```
 
 [**Port**](https://webpack.js.org/configuration/dev-server/#devserver-port) specifies the Webpack dev server to listen on this particular port (3000 in this case). When [**open**](https://webpack.js.org/configuration/dev-server/#devserver-open) is set to true, it will automatically open the home page on startup. [Proxying](https://webpack.js.org/configuration/dev-server/#devserver-proxy) URLs can be useful when we have a separate API backend development server and we want to send API requests on the same domain. In our case, we have a Node.js/Express backend where we want to send the API requests to.
