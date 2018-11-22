@@ -1,11 +1,13 @@
 const SerialPort = require('serialport');
 const Readline = require('@serialport/parser-readline');
 
-let instance = null;
+let serialInstance = null;
 
 class SerialService {
+  serialInstance;
+
   static initialize() {
-    if (instance) {
+    if (serialInstance) {
       throw new Error('serial port is already initilized');
     }
 
@@ -15,7 +17,7 @@ class SerialService {
 
     const parser = port.pipe(new Readline({ delimiter: '\r\n' }));
 
-    instance = parser;
+    serialInstance = parser;
 
     parser.on('data', (data) => {
       console.log(`Arduino: ${data}`);
@@ -36,12 +38,12 @@ class SerialService {
   }
 
   static getPort() {
-    if (!instance) {
+    if (!serialInstance) {
       throw new Error('serial port is not initilized');
     }
 
-    return instance;
+    return serialInstance;
   }
 }
 
-module.exports = SerialService;
+export default SerialService;

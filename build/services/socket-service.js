@@ -1,5 +1,6 @@
 "use strict";
-var instance = null;
+Object.defineProperty(exports, "__esModule", { value: true });
+var instance;
 var SocketService = /** @class */ (function () {
     function SocketService() {
     }
@@ -27,5 +28,5 @@ var SocketService = /** @class */ (function () {
     };
     return SocketService;
 }());
-module.exports = SocketService;
+exports.default = SocketService;
 //# sourceMappingURL=socket-service.js.map

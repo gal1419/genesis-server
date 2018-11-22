@@ -1,10 +1,10 @@
-const express = require('express');
-const { promisify } = require('util');
-const crypto = require('crypto');
-const nodemailer = require('nodemailer');
-const passport = require('passport');
-const User = require('../../models/User');
-const passportConfig = require('../../config/passport');
+import express from 'express';
+import { promisify } from 'util';
+import crypto from 'crypto';
+import nodemailer from 'nodemailer';
+import passport from 'passport';
+import User from '../../models/User';
+import * as passportConfig from '../../config/passport';
 
 const authRouter = express.Router();
 const randomBytesAsync = promisify(crypto.randomBytes);
@@ -26,13 +26,17 @@ const postLogin = (req, res, next) => {
   }
 
   passport.authenticate('local', (err, user, info) => {
-    if (err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
     if (!user) {
       req.flash('errors', info);
       return next(info);
     }
     req.logIn(user, (err) => {
-      if (err) { return next(err); }
+      if (err) {
+        return next(err);
+      }
       res.status(200).json({ msg: 'Success! You are logged in.' });
     });
   })(req, res, next);
@@ -74,12 +78,16 @@ const postSignup = (req, res, next) => {
   });
 
   User.findOne({ email: req.body.email }, (err, existingUser) => {
-    if (err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
     if (existingUser) {
       return res.status(400).json({ message: 'Account with that email address already exists.' });
     }
     user.save((err) => {
-      if (err) { return next(err); }
+      if (err) {
+        return next(err);
+      }
       req.logIn(user, (err) => {
         if (err) {
           return next(err);
@@ -116,7 +124,9 @@ const postUpdateProfile = (req, res, next) => {
   }
 
   User.findById(req.user.id, (err, user) => {
-    if (err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
     user.email = req.body.email || '';
     user.profile.name = req.body.name || '';
     user.profile.gender = req.body.gender || '';
@@ -125,7 +135,9 @@ const postUpdateProfile = (req, res, next) => {
     user.save((err) => {
       if (err) {
         if (err.code === 11000) {
-          req.flash('errors', { msg: 'The email address you have entered is already associated with an account.' });
+          req.flash('errors', {
+            msg: 'The email address you have entered is already associated with an account.'
+          });
           return res.redirect('/account');
         }
         return next(err);
@@ -152,10 +164,14 @@ const postUpdatePassword = (req, res, next) => {
   }
 
   User.findById(req.user.id, (err, user) => {
-    if (err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
     user.password = req.body.password;
     user.save((err) => {
-      if (err) { return next(err); }
+      if (err) {
+        return next(err);
+      }
       req.flash('success', { msg: 'Password has been changed.' });
       res.redirect('/account');
     });
@@ -168,7 +184,9 @@ const postUpdatePassword = (req, res, next) => {
  */
 const postDeleteAccount = (req, res, next) => {
   User.deleteOne({ _id: req.user.id }, (err) => {
-    if (err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
     req.logout();
     req.flash('info', { msg: 'Your account has been deleted.' });
     res.redirect('/');
@@ -183,11 +201,13 @@ const getReset = (req, res, next) => {
   if (req.isAuthenticated()) {
     return res.redirect('/');
   }
-  User
-    .findOne({ passwordResetToken: req.params.token })
-    .where('passwordResetExpires').gt(Date.now())
+  User.findOne({ passwordResetToken: req.params.token })
+    .where('passwordResetExpires')
+    .gt(Date.now())
     .exec((err, user) => {
-      if (err) { return next(err); }
+      if (err) {
+        return next(err);
+      }
       if (!user) {
         req.flash('errors', { msg: 'Password reset token is invalid or has expired.' });
         return res.redirect('/forgot');
@@ -213,9 +233,9 @@ const postReset = (req, res, next) => {
     return res.redirect('back');
   }
 
-  const resetPassword = () => User
-    .findOne({ passwordResetToken: req.params.token })
-    .where('passwordResetExpires').gt(Date.now())
+  const resetPassword = () => User.findOne({ passwordResetToken: req.params.token })
+    .where('passwordResetExpires')
+    .gt(Date.now())
     .then((user) => {
       if (!user) {
         req.flash('errors', { msg: 'Password reset token is invalid or has expired.' });
@@ -224,16 +244,22 @@ const postReset = (req, res, next) => {
       user.password = req.body.password;
       user.passwordResetToken = undefined;
       user.passwordResetExpires = undefined;
-      return user.save().then(() => new Promise((resolve, reject) => {
-        req.logIn(user, (err) => {
-          if (err) { return reject(err); }
-          resolve(user);
-        });
-      }));
+      return user.save().then(
+        () => new Promise((resolve, reject) => {
+          req.logIn(user, (err) => {
+            if (err) {
+              return reject(err);
+            }
+            resolve(user);
+          });
+        })
+      );
     });
 
   const sendResetPasswordEmail = (user) => {
-    if (!user) { return; }
+    if (!user) {
+      return;
+    }
     let transporter = nodemailer.createTransport({
       service: 'SendGrid',
       auth: {
@@ -245,15 +271,20 @@ const postReset = (req, res, next) => {
       to: user.email,
       from: 'hackathon@starter.com',
       subject: 'Your Hackathon Starter password has been changed',
-      text: `Hello,\n\nThis is a confirmation that the password for your account ${user.email} has just been changed.\n`
+      text: `Hello,\n\nThis is a confirmation that the password for your account ${
+        user.email
+      } has just been changed.\n`
     };
-    return transporter.sendMail(mailOptions)
+    return transporter
+      .sendMail(mailOptions)
       .then(() => {
         req.flash('success', { msg: 'Success! Your password has been changed.' });
       })
       .catch((err) => {
         if (err.message === 'self signed certificate in certificate chain') {
-          console.log('WARNING: Self signed certificate in certificate chain. Retrying with the self signed certificate. Use a valid certificate if in production.');
+          console.log(
+            'WARNING: Self signed certificate in certificate chain. Retrying with the self signed certificate. Use a valid certificate if in production.'
+          );
           transporter = nodemailer.createTransport({
             service: 'SendGrid',
             auth: {
@@ -264,20 +295,27 @@ const postReset = (req, res, next) => {
               rejectUnauthorized: false
             }
           });
-          return transporter.sendMail(mailOptions)
-            .then(() => {
-              req.flash('success', { msg: 'Success! Your password has been changed.' });
-            });
+          return transporter.sendMail(mailOptions).then(() => {
+            req.flash('success', { msg: 'Success! Your password has been changed.' });
+          });
         }
-        console.log('ERROR: Could not send password reset confirmation email after security downgrade.\n', err);
-        req.flash('warning', { msg: 'Your password has been changed, however we were unable to send you a confirmation email. We will be looking into it shortly.' });
+        console.log(
+          'ERROR: Could not send password reset confirmation email after security downgrade.\n',
+          err
+        );
+        req.flash('warning', {
+          msg:
+            'Your password has been changed, however we were unable to send you a confirmation email. We will be looking into it shortly.'
+        });
         return err;
       });
   };
 
   resetPassword()
     .then(sendResetPasswordEmail)
-    .then(() => { if (!res.finished) res.redirect('/'); })
+    .then(() => {
+      if (!res.finished) res.redirect('/');
+    })
     .catch(err => next(err));
 };
 
@@ -296,24 +334,23 @@ const postForgot = (req, res, next) => {
     return res.redirect('/forgot');
   }
 
-  const createRandomToken = randomBytesAsync(16)
-    .then(buf => buf.toString('hex'));
+  const createRandomToken = randomBytesAsync(16).then(buf => buf.toString('hex'));
 
-  const setRandomToken = token => User
-    .findOne({ email: req.body.email })
-    .then((user) => {
-      if (!user) {
-        req.flash('errors', { msg: 'Account with that email address does not exist.' });
-      } else {
-        user.passwordResetToken = token;
-        user.passwordResetExpires = Date.now() + 3600000; // 1 hour
-        user = user.save();
-      }
-      return user;
-    });
+  const setRandomToken = token => User.findOne({ email: req.body.email }).then((user) => {
+    if (!user) {
+      req.flash('errors', { msg: 'Account with that email address does not exist.' });
+    } else {
+      user.passwordResetToken = token;
+      user.passwordResetExpires = Date.now() + 3600000; // 1 hour
+      user = user.save();
+    }
+    return user;
+  });
 
   const sendForgotPasswordEmail = (user) => {
-    if (!user) { return; }
+    if (!user) {
+      return;
+    }
     const token = user.passwordResetToken;
     let transporter = nodemailer.createTransport({
       service: 'SendGrid',
@@ -331,13 +368,18 @@ const postForgot = (req, res, next) => {
         http://${req.headers.host}/reset/${token}\n\n
         If you did not request this, please ignore this email and your password will remain unchanged.\n`
     };
-    return transporter.sendMail(mailOptions)
+    return transporter
+      .sendMail(mailOptions)
       .then(() => {
-        req.flash('info', { msg: `An e-mail has been sent to ${user.email} with further instructions.` });
+        req.flash('info', {
+          msg: `An e-mail has been sent to ${user.email} with further instructions.`
+        });
       })
       .catch((err) => {
         if (err.message === 'self signed certificate in certificate chain') {
-          console.log('WARNING: Self signed certificate in certificate chain. Retrying with the self signed certificate. Use a valid certificate if in production.');
+          console.log(
+            'WARNING: Self signed certificate in certificate chain. Retrying with the self signed certificate. Use a valid certificate if in production.'
+          );
           transporter = nodemailer.createTransport({
             service: 'SendGrid',
             auth: {
@@ -348,13 +390,16 @@ const postForgot = (req, res, next) => {
               rejectUnauthorized: false
             }
           });
-          return transporter.sendMail(mailOptions)
-            .then(() => {
-              req.flash('info', { msg: `An e-mail has been sent to ${user.email} with further instructions.` });
+          return transporter.sendMail(mailOptions).then(() => {
+            req.flash('info', {
+              msg: `An e-mail has been sent to ${user.email} with further instructions.`
             });
+          });
         }
         console.log('ERROR: Could not send forgot password email after security downgrade.\n', err);
-        req.flash('errors', { msg: 'Error sending the password reset message. Please try again shortly.' });
+        req.flash('errors', {
+          msg: 'Error sending the password reset message. Please try again shortly.'
+        });
         return err;
       });
   };
@@ -365,7 +410,6 @@ const postForgot = (req, res, next) => {
     .then(() => res.redirect('/forgot'))
     .catch(next);
 };
-
 
 authRouter.post('/login', postLogin);
 authRouter.post('/logout', postLogout);
@@ -378,4 +422,4 @@ authRouter.post('/account/profile', passportConfig.isAuthenticated, postUpdatePr
 authRouter.post('/account/password', passportConfig.isAuthenticated, postUpdatePassword);
 authRouter.post('/account/delete', passportConfig.isAuthenticated, postDeleteAccount);
 
-module.exports = authRouter;
+export default authRouter;

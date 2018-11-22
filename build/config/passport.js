@@ -1,20 +1,25 @@
 "use strict";
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var User = require('../models/User');
-passport.serializeUser(function (user, done) {
-    done(null, user.id);
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var passport_1 = __importDefault(require("passport"));
+var passport_local_1 = require("passport-local");
+var lodash_1 = __importDefault(require("lodash"));
+var User_1 = __importDefault(require("../models/User"));
+passport_1.default.serializeUser(function (user, done) {
+    done(undefined, user.id);
 });
-passport.deserializeUser(function (id, done) {
-    User.findById(id, function (err, user) {
+passport_1.default.deserializeUser(function (id, done) {
+    User_1.default.findById(id, function (err, user) {
         done(err, user);
     });
 });
 /**
  * Sign in using Email and Password.
  */
-passport.use(new LocalStrategy({ usernameField: 'email' }, function (email, password, done) {
-    User.findOne({ email: email.toLowerCase() }, function (err, user) {
+passport_1.default.use(new passport_local_1.Strategy({ usernameField: 'email' }, function (email, password, done) {
+    User_1.default.findOne({ email: email.toLowerCase() }, function (err, user) {
         if (err) {
             return done(err);
         }
@@ -46,8 +51,7 @@ exports.isAuthenticated = function (req, res, next) {
  */
 exports.isAuthorized = function (req, res, next) {
     var provider = req.path.split('/').slice(-1)[0];
-    var token = req.user.tokens.find(function (token) { return token.kind === provider; });
-    if (token) {
+    if (lodash_1.default.find(req.user.tokens, { kind: provider })) {
         next();
     }
     else {

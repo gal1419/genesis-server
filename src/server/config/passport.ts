@@ -1,10 +1,11 @@
-const passport = require('passport');
-const { Strategy: LocalStrategy } = require('passport-local');
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
+import { Request, Response, NextFunction } from 'express';
+import _ from 'lodash';
+import User from '../models/User';
 
-const User = require('../models/User');
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
+passport.serializeUser<any, any>((user, done) => {
+  done(undefined, user.id);
 });
 
 passport.deserializeUser((id, done) => {
@@ -41,7 +42,7 @@ passport.use(
 /**
  * Login Required middleware.
  */
-exports.isAuthenticated = (req, res, next) => {
+export const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
   if (req.isAuthenticated()) {
     return next();
   }
@@ -51,10 +52,10 @@ exports.isAuthenticated = (req, res, next) => {
 /**
  * Authorization Required middleware.
  */
-exports.isAuthorized = (req, res, next) => {
+export const isAuthorized = (req: Request, res: Response, next: NextFunction) => {
   const provider = req.path.split('/').slice(-1)[0];
-  const token = req.user.tokens.find(token => token.kind === provider);
-  if (token) {
+
+  if (_.find(req.user.tokens, { kind: provider })) {
     next();
   } else {
     res.redirect(`/auth/${provider}`);

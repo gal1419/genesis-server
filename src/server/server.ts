@@ -1,35 +1,36 @@
-const express = require('express');
-const socketIO = require('socket.io');
-const compression = require('compression');
-const session = require('express-session');
-const bodyParser = require('body-parser');
-const logger = require('morgan');
-const chalk = require('chalk');
-const errorHandler = require('errorhandler');
-const lusca = require('lusca');
-const dotenv = require('dotenv');
+import express from 'express';
+import socketIO from 'socket.io';
+import compression from 'compression';
+import session from 'express-session';
+import bodyParser from 'body-parser';
+import logger from 'morgan';
+import chalk from 'chalk';
+import errorHandler from 'errorhandler';
+import lusca from 'lusca';
+import dotenv from 'dotenv';
+import flash from 'express-flash';
+import path from 'path';
+import mongoose from 'mongoose';
+import passport from 'passport';
+import expressValidator from 'express-validator';
+import expressStatusMonitor from 'express-status-monitor';
+import sass from 'node-sass-middleware';
+import * as http from 'http';
+import socketService from './services/socket-service';
+import serialService from './services/serial-service';
+
+/**
+ * API keys and Passport configuration.
+ */
+import apiRouts from './routes/api';
+import authRouts from './routes/auth';
+
 const MongoStore = require('connect-mongo')(session);
-const flash = require('express-flash');
-const path = require('path');
-const mongoose = require('mongoose');
-const passport = require('passport');
-const expressValidator = require('express-validator');
-const expressStatusMonitor = require('express-status-monitor');
-const sass = require('node-sass-middleware');
-const http = require('http');
-const socketService = require('./services/socket-service');
-const serialService = require('./services/serial-service');
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
 dotenv.load({ path: '.env.example' });
-
-/**
- * API keys and Passport configuration.
- */
-const apiRouts = require('./routes/api');
-const authRouts = require('./routes/auth');
 
 /**
  * Connect to MongoDB.
@@ -48,7 +49,7 @@ mongoose.connection.on('error', (err: any) => {
  * Create server.
  */
 const app = express();
-const server = http.Server(app);
+const server = (<any>http.Server)(app);
 const io = socketIO(server);
 
 /**
@@ -160,4 +161,4 @@ server.listen(app.get('port'), () => {
   console.log('  Press CTRL-C to stop\n');
 });
 
-module.exports = app;
+export default app;

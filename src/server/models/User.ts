@@ -1,6 +1,6 @@
-const bcrypt = require('bcrypt-nodejs');
-const crypto = require('crypto');
-const mongoose = require('mongoose');
+import bcrypt from 'bcrypt-nodejs';
+import crypto from 'crypto';
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(
   {
@@ -24,9 +24,10 @@ const userSchema = new mongoose.Schema(
 /**
  * Password hash middleware.
  */
+
 userSchema.pre('save', function preSave(next) {
   const user = this;
-  if (!user.isModified('password')) {
+  if (!this.isModified('password')) {
     return next();
   }
 
@@ -70,4 +71,4 @@ userSchema.methods.gravatar = function gravatar(size) {
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+export default User;

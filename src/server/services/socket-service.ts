@@ -1,4 +1,4 @@
-let instance = null;
+let instance: SocketIO.Socket;
 
 class SocketService {
   static initialize(socket) {
@@ -29,4 +29,4 @@ class SocketService {
   }
 }
 
-module.exports = SocketService;
+export default SocketService;

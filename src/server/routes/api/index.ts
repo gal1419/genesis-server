@@ -1,6 +1,6 @@
-const express = require('express');
-const request = require('request');
-const passportConfig = require('../../config/passport');
+import express from 'express';
+import request from 'request';
+import * as passportConfig from '../../config/passport';
 
 const apiRouter = express.Router();
 
@@ -36,4 +36,4 @@ apiRouter.get(
 );
 
 apiRouter.get('/getUsername', (req, res) => res.send({ username: 'Gal' }));
-module.exports = apiRouter;
+export default apiRouter;
