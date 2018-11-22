@@ -38,7 +38,7 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useNewUrlParser', true);
 mongoose.connect(process.env.MONGODB_URI);
-mongoose.connection.on('error', (err) => {
+mongoose.connection.on('error', (err: any) => {
   console.error(err);
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
   process.exit();
@@ -94,7 +94,7 @@ app.use(flash());
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
 app.disable('x-powered-by');
-app.use((req, res, next) => {
+app.use((req: any, res: any, next: any) => {
   res.locals.user = req.user;
   next();
 });
@@ -125,7 +125,7 @@ app.use(
 app.use('/api', apiRouts);
 app.use('/auth', authRouts);
 
-app.get('*', (request, response) => {
+app.get('*', (request: any, response: any) => {
   response.sendFile(path.resolve(__dirname, '../../dist', 'index.html'));
 });
 
