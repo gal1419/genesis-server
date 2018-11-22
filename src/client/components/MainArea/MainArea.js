@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import fetch from 'cross-fetch';
 
 class MainArea extends Component {
   constructor(props) {
@@ -7,9 +6,7 @@ class MainArea extends Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    fetch('/api/locations').then(loc => console.log(loc));
-  }
+  componentDidMount() {}
 
   render() {
     return <div className="home-page-container">Hello</div>;
