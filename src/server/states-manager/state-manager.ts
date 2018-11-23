@@ -3,18 +3,27 @@ import FirstScene from './scenes/first-scene';
 import InitialScene from './scenes/initial-state';
 
 export class StateManager {
-  private currentState: State;
+  private static instance: StateManager;
 
-  constructor() {
-    this.currentState = new InitialScene();
+  private _currentState!: State;
+
+  private constructor() {}
+
+  static getInstance() {
+    if (!StateManager.instance) {
+      StateManager.instance = new StateManager();
+    }
+    return StateManager.instance;
   }
 
-  public setState(state: State): void {
-    this.currentState.destroy();
-    this.currentState = state;
+  public setState(state: State) {
+    this._currentState.destroy();
+    this._currentState = state;
   }
 
   public execute(): void {
-    this.currentState.execute(this);
+    this._currentState.execute(this);
   }
 }
+
+export default StateManager;
