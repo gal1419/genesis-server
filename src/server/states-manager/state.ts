@@ -1,5 +1,5 @@
 import { StateManager } from './state-manager';
-import { SceneNumber } from './scenes/scenes-signals';
+import { SceneNumber } from './scenes-signals';
 import SocketService, { SocketListenerType } from '../services/socket-service';
 import SerialPortService, { SerialPortListenerType } from '../services/serial-service';
 

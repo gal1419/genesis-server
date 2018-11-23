@@ -1,4 +1,4 @@
-import { SceneNumber } from '../states-manager/scenes/scenes-signals';
+import { SceneNumber } from '../states-manager/scenes-signals';
 
 export interface SocketMessage {
   type: string;

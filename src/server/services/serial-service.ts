@@ -2,6 +2,8 @@ import SerialPort from 'serialport';
 import Readline from '@serialport/parser-readline';
 import _ from 'lodash';
 
+export type SerialPortListenerType = (data: string) => any;
+
 class SerialPortService {
   private serialInstance;
 

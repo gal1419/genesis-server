@@ -2,7 +2,7 @@ import State from '../state';
 import { StateManager } from '../state-manager';
 import SocketService from '../../services/socket-service';
 import SerialService from '../../services/serial-service';
-import { SceneNumber } from './scenes-signals';
+import { SceneNumber } from '../scenes-signals';
 
 export default class SecondScene extends State {
   constructor() {
