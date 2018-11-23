@@ -7,11 +7,11 @@ export class Constans {
   static readonly SERIAL_EVENT: string = 'serialEvent';
 
   // MESSAGES
-  static readonly LOAD_SCENE_EVENT: string = 'loadScene';
+  static readonly LOAD_SCENE_EVENT: string = 'loadSceneEvent';
 
-  static readonly END_SCENE_EVENT: string = 'endScene';
+  static readonly END_SCENE_EVENT: string = 'endSceneEvent';
 
-  static readonly SCENE_STARTED_EVENT: string = 'endScene';
+  static readonly SCENE_STARTED_EVENT: string = 'sceneStartedEvent';
 
-  static readonly SCENE_ENDED_EVENT: string = 'endScene';
+  static readonly SCENE_ENDED_EVENT: string = 'sceneEndedEvent';
 }
