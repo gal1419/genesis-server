@@ -1,49 +1,60 @@
-const SerialPort = require('serialport');
-const Readline = require('@serialport/parser-readline');
+import SerialPort from 'serialport';
+import Readline from '@serialport/parser-readline';
+import _ from 'lodash';
 
-let serialInstance = null;
+class SerialPortService {
+  private serialInstance;
 
-class SerialService {
-  serialInstance;
+  private parser;
 
-  static initialize() {
-    if (serialInstance) {
+  private listeners: Array<(data: string) => any> = [];
+
+  initialize() {
+    if (this.serialInstance) {
       throw new Error('serial port is already initilized');
     }
 
-    const port = new SerialPort(process.env.SERIAL_PORT, {
+    if (!process.env.SERIAL_PORT) {
+      throw new Error('SERIAL_PORT was not defined');
+    }
+
+    this.serialInstance = new SerialPort(process.env.SERIAL_PORT, {
       baudRate: 9600
     });
 
-    const parser = port.pipe(new Readline({ delimiter: '\r\n' }));
+    this.parser = this.serialInstance.pipe(new Readline({ delimiter: '\r\n' }));
 
-    serialInstance = parser;
+    this.parser.on('data', (data) => {
+      console.log(`Data: ${data}`);
 
-    parser.on('data', (data) => {
-      console.log(`Arduino: ${data}`);
-
-      if (data === 'ready') {
-        port.write('Kalish is a Rabbit', (err) => {
-          if (err) {
-            return console.log('Error on write: ', err.message);
-          }
-          console.log('message written');
+      if (_.isEmpty(this.listeners)) {
+        this.listeners.forEach((value) => {
+          value(data);
         });
       }
     });
 
-    port.on('error', (err) => {
+    this.serialInstance.on('error', (err) => {
       console.log('Error: ', err.message);
     });
   }
 
-  static getPort() {
-    if (!serialInstance) {
-      throw new Error('serial port is not initilized');
-    }
+  sendMessage(message: string) {
+    this.serialInstance.write(message, (err) => {
+      if (err) {
+        return console.log('Error on write: ', err.message);
+      }
+      console.log('message written');
+    });
+  }
 
-    return serialInstance;
+  addListener(listener: (data: string) => any) {
+    this.listeners.push(listener);
+  }
+
+  removeListener(listener: (data: string) => any) {
+    _.remove(this.listeners, listener);
   }
 }
 
-export default SerialService;
+export default new SerialPortService();

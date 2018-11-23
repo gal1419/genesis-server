@@ -1,32 +1,45 @@
+import { SceneNumber } from '../states-manager/scenes/scenes-signals';
+
+export interface SocketMessage {
+  type: string;
+  message: string;
+}
+
+export type SocketListenerType = () => any;
+
 let instance: SocketIO.Socket;
 
 class SocketService {
-  static initialize(socket) {
+  private listenersMap: Map<string, SocketListenerType> = new Map();
+
+  initialize(socket) {
     if (instance) {
       throw new Error('socket is already initilized');
     }
 
     instance = socket;
 
-    instance.on('connection', (socket) => {
+    instance.on('connection', socket => {
       console.log('connected');
-      socket.on('gal', (data) => {
-        console.log(data);
-        socket.emit('loadScene', { hello: 'Hey there browser!' });
-      });
-      socket.on('disconnect', () => {
-        console.log('Socket disconnected');
-      });
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Socket disconnected');
     });
   }
 
-  static getSocket() {
-    if (!instance) {
-      throw new Error('socket is not initilized');
-    }
+  sendMessage(event: string, message: SocketMessage) {
+    instance.emit('loadScene', message);
+  }
 
-    return instance;
+  addListener(event: string, listener: () => void) {
+    this.listenersMap.set(event, listener);
+    instance.on(event, listener);
+  }
+
+  removeListener(event: string) {
+    instance.off(event, <any>this.listenersMap.get(event));
   }
 }
 
-export default SocketService;
+export default new SocketService();
