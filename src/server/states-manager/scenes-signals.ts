@@ -17,6 +17,13 @@ export enum SceneNumber {
   SIXTEENTH
 }
 
-export enum ArduinoSignals {}
+export enum ArduinoSignals {
+  FIRST_CELL_OPENED = 1,
+  GLASSES_DRWAER_OPENED,
+  CHIP_DRAWER_OPENED,
+  CHIP_EXTRACTED,
+  VR_CELL_OPENED,
+  TURN_RED_LIGHT_ON = 'RED'
+}
 
 export enum UnitySignals {}
