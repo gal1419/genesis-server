@@ -23,14 +23,14 @@ import serialService from './services/serial-service';
  * API keys and Passport configuration.
  */
 import apiRouts from './routes/api';
-import authRouts from './routes/auth';
+import authRouts from './routes/user';
 
 const MongoStore = require('connect-mongo')(session);
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-dotenv.load({ path: '.env.example' });
+dotenv.config();
 
 /**
  * Connect to MongoDB.
@@ -77,7 +77,7 @@ app.use(
     resave: true,
     saveUninitialized: true,
     secret: process.env.SESSION_SECRET,
-    cookie: { maxAge: 1209600000 }, // two weeks in milliseconds
+    cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 * 2 },
     store: new MongoStore({
       url: process.env.MONGODB_URI,
       autoReconnect: true
@@ -100,31 +100,11 @@ app.use((req: any, res: any, next: any) => {
   next();
 });
 
-app.use('/', express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
-app.use(
-  '/js/lib',
-  express.static(path.join(__dirname, 'node_modules/popper.js/dist/umd'), { maxAge: 31557600000 })
-);
-app.use(
-  '/js/lib',
-  express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js'), { maxAge: 31557600000 })
-);
-app.use(
-  '/js/lib',
-  express.static(path.join(__dirname, 'node_modules/jquery/dist'), { maxAge: 31557600000 })
-);
-app.use(
-  '/webfonts',
-  express.static(path.join(__dirname, 'node_modules/@fortawesome/fontawesome-free/webfonts'), {
-    maxAge: 31557600000
-  })
-);
-
 /**
  * App routes.
  */
 app.use('/api', apiRouts);
-app.use('/auth', authRouts);
+app.use('/user', authRouts);
 
 app.get('*', (request: any, response: any) => {
   response.sendFile(path.resolve(__dirname, '../../dist', 'index.html'));

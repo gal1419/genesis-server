@@ -12,7 +12,7 @@ export default class FirstScene extends State {
 
   execute = (manager: StateManager): void => {
     super.loadScene(SceneNumber.FIRST);
-    manager.setCurrentState(new SecondScene());
+    manager.setState(new SecondScene());
   };
 
   destroy = (): void => {};

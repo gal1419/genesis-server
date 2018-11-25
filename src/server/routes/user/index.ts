@@ -30,7 +30,6 @@ const postLogin = (req, res, next) => {
       return next(err);
     }
     if (!user) {
-      req.flash('errors', info);
       return next(info);
     }
     req.logIn(user, (err) => {
@@ -135,15 +134,13 @@ const postUpdateProfile = (req, res, next) => {
     user.save((err) => {
       if (err) {
         if (err.code === 11000) {
-          req.flash('errors', {
+          return res.ok(400).json({
             msg: 'The email address you have entered is already associated with an account.'
           });
-          return res.redirect('/account');
         }
         return next(err);
       }
-      req.flash('success', { msg: 'Profile information has been updated.' });
-      res.redirect('/account');
+      return res.ok(200).json({ msg: 'Profile information has been updated.' });
     });
   });
 };
@@ -173,7 +170,7 @@ const postUpdatePassword = (req, res, next) => {
         return next(err);
       }
       req.flash('success', { msg: 'Password has been changed.' });
-      res.redirect('/account');
+      return res.ok(200).json({ msg: 'Password has been changed.' });
     });
   });
 };
@@ -188,8 +185,7 @@ const postDeleteAccount = (req, res, next) => {
       return next(err);
     }
     req.logout();
-    req.flash('info', { msg: 'Your account has been deleted.' });
-    res.redirect('/');
+    return res.ok(200).json({ msg: 'Your account has been deleted.' });
   });
 };
 

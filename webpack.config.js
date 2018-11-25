@@ -40,7 +40,7 @@ module.exports = {
         secure: false,
         logLevel: 'debug'
       },
-      '/auth/**': {
+      '/user/**': {
         target: 'http://localhost:5000',
         // pathRewrite: { '^/auth': '' },
         secure: false,

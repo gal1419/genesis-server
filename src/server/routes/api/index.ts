@@ -4,35 +4,34 @@ import * as passportConfig from '../../config/passport';
 
 const apiRouter = express.Router();
 
-const getPinterest = (req, res, next) => {
+const startGame = (req, res, next) => {
   const userToken = req.user.tokens.find(token => token.kind === 'pinterest');
-  request.get(
-    {
-      url: 'https://api.pinterest.com/v1/me/boards/',
-      qs: { access_token: userToken.accessToken },
-      json: true
-    },
-    (err, req, body) => {
-      if (err) {
-        return next(err);
-      }
-      return res.render('api/pinterest', {
-        title: 'Pinterest API',
-        boards: body.data
-      });
-    }
-  );
+};
+
+const iniitlizeGame = (req, res, next) => {
+  const userToken = req.user.tokens.find(token => token.kind === 'pinterest');
 };
 
 /**
- * GET /api/pinterest
- * Pinterest API example.
+ * POST /api/init-game
+ * Initialize the Game
  */
 apiRouter.get(
-  '/pinterest',
+  '/initilize-game',
   passportConfig.isAuthenticated,
   passportConfig.isAuthorized,
-  getPinterest
+  iniitlizeGame
+);
+
+/**
+ * POST /api/start-game
+ * Start the game
+ */
+apiRouter.get(
+  '/start-game',
+  passportConfig.isAuthenticated,
+  passportConfig.isAuthorized,
+  startGame
 );
 
 apiRouter.get('/getUsername', (req, res) => res.send({ username: 'Gal' }));
