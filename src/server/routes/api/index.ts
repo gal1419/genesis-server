@@ -5,21 +5,21 @@ import * as passportConfig from '../../config/passport';
 const apiRouter = express.Router();
 
 const startGame = (req, res, next) => {
-  const userToken = req.user.tokens.find(token => token.kind === 'pinterest');
+  res.status(200).json({ msg: 'Game Started' });
 };
 
 const iniitlizeGame = (req, res, next) => {
-  const userToken = req.user.tokens.find(token => token.kind === 'pinterest');
+  res.status(200).json({ msg: 'Game Initilized' });
 };
 
 /**
- * POST /api/init-game
+ * POST /api/initilize-game
  * Initialize the Game
  */
-apiRouter.get(
+apiRouter.post(
   '/initilize-game',
   passportConfig.isAuthenticated,
-  passportConfig.isAuthorized,
+  passportConfig.roleAuthorization(['admin']),
   iniitlizeGame
 );
 
@@ -27,12 +27,11 @@ apiRouter.get(
  * POST /api/start-game
  * Start the game
  */
-apiRouter.get(
+apiRouter.post(
   '/start-game',
   passportConfig.isAuthenticated,
-  passportConfig.isAuthorized,
+  passportConfig.roleAuthorization(['admin']),
   startGame
 );
 
-apiRouter.get('/getUsername', (req, res) => res.send({ username: 'Gal' }));
 export default apiRouter;

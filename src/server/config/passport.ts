@@ -49,6 +49,23 @@ export const isAuthenticated = (req: Request, res: Response, next: NextFunction)
   res.redirect('/login');
 };
 
+export const roleAuthorization = roles => (req, res, next) => {
+  const user = req.user;
+  User.findOne({ email: user.email.toLowerCase() }, (err, foundUser) => {
+    if (err) {
+      res.status(422).json({ error: 'No user found.' });
+      return next(err);
+    }
+
+    if (roles.indexOf(foundUser.role) > -1) {
+      return next();
+    }
+
+    res.status(401).json({ error: 'You are not authorized to view this content' });
+    return next('Unauthorized');
+  });
+};
+
 /**
  * Authorization Required middleware.
  */
