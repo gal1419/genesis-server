@@ -46,7 +46,7 @@ export const isAuthenticated = (req: Request, res: Response, next: NextFunction)
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect('/login');
+  res.status(400).json({ error: 'User is not authenticated' });
 };
 
 export const roleAuthorization = roles => (req, res, next) => {
