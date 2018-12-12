@@ -7,11 +7,23 @@ var bcrypt_nodejs_1 = __importDefault(require("bcrypt-nodejs"));
 var crypto_1 = __importDefault(require("crypto"));
 var mongoose_1 = __importDefault(require("mongoose"));
 var userSchema = new mongoose_1.default.Schema({
-    email: { type: String, unique: true },
-    password: String,
+    email: {
+        type: String,
+        lowercase: true,
+        unique: true,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    role: {
+        type: String,
+        enum: ['admin', 'user'],
+        default: 'user'
+    },
     passwordResetToken: String,
     passwordResetExpires: Date,
-    tokens: Array,
     profile: {
         name: String,
         gender: String,

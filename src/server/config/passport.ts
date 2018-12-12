@@ -49,6 +49,9 @@ export const isAuthenticated = (req: Request, res: Response, next: NextFunction)
   res.status(400).json({ error: 'User is not authenticated' });
 };
 
+/**
+ * Role Based Authorization middleware.
+ */
 export const roleAuthorization = roles => (req, res, next) => {
   const user = req.user;
   User.findOne({ email: user.email.toLowerCase() }, (err, foundUser) => {

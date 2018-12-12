@@ -28,12 +28,9 @@ class SerialPortService {
 
     this.parser.on('data', (data) => {
       console.log(`Data: ${data}`);
-
-      if (_.isEmpty(this.listeners)) {
-        this.listeners.forEach((value) => {
-          value(data);
-        });
-      }
+      this.listeners.forEach((value) => {
+        value(data);
+      });
     });
 
     this.serialInstance.on('error', (err) => {

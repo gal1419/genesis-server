@@ -7,7 +7,7 @@ export class Constans {
   static readonly SERIAL_EVENT: string = 'serialEvent';
 
   // MESSAGES
-  static readonly LOAD_SCENE_EVENT: string = 'loadSceneEvent';
+  static readonly LOAD_SCENE: string = 'LOAD_SCENE';
 
   static readonly END_SCENE_EVENT: string = 'endSceneEvent';
 

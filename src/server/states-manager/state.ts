@@ -1,26 +1,33 @@
-import { StateManager } from './state-manager';
-import { SceneNumber } from './scenes-signals';
-import SocketService, { SocketListenerType } from '../services/socket-service';
+import { StateManager } from './services/state-manager';
+import UnityRestService, { UnityRestListenerType } from '../services/unity-rest-service';
 import SerialPortService, { SerialPortListenerType } from '../services/serial-service';
 
 import { Constans } from './constans';
 
 export default abstract class State {
+  abstract readonly sceneName;
+
   constructor() {}
 
-  loadScene(sceneId: SceneNumber) {
-    SocketService.sendMessage(Constans.UNITY_SERVER_EVENT, {
-      type: Constans.LOAD_SCENE_EVENT,
-      message: sceneId.toString()
-    });
+  loadUnityScene(sceneName: string, sendToSecondaryUnity: boolean) {
+    const message = `${Constans.LOAD_SCENE}:${sceneName}`;
+    UnityRestService.sendPrimaryUnityMessage(Constans.LOAD_SCENE, message);
+
+    if (sendToSecondaryUnity) {
+      UnityRestService.sendPrimaryUnityMessage(Constans.LOAD_SCENE, sceneName);
+    }
   }
 
-  private setListeners(serialPortListener: SerialPortListenerType) {
+  getSceneName() {
+    return this.sceneName;
+  }
+
+  setSerialPortListener(serialPortListener: SerialPortListenerType) {
     SerialPortService.addListener(serialPortListener);
   }
 
-  private setSocketListener(event: string, socketListener: SocketListenerType) {
-    SocketService.addListener(event, socketListener);
+  setRestListener(listenerId: string, listener: UnityRestListenerType) {
+    UnityRestService.addListener(listenerId, listener);
   }
 
   abstract execute: (manager: StateManager) => void;

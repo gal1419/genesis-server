@@ -1,6 +1,6 @@
-import State from './state';
-import FirstScene from './scenes/first-scene';
-import InitialScene from './scenes/initial-state';
+import State from '../state';
+import FirstScene from '../scenes/wait-to-begin';
+import InitialScene from '../scenes/regestration';
 
 export class StateManager {
   private static instance: StateManager;
@@ -17,7 +17,9 @@ export class StateManager {
   }
 
   public setState(state: State) {
-    this._currentState.destroy();
+    if (this._currentState) {
+      this._currentState.destroy();
+    }
     this._currentState = state;
   }
 

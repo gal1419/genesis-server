@@ -16,7 +16,7 @@ import expressValidator from 'express-validator';
 import expressStatusMonitor from 'express-status-monitor';
 import sass from 'node-sass-middleware';
 import * as http from 'http';
-import socketService from './services/socket-service';
+import socketService from './services/unity-rest-service';
 import serialService from './services/serial-service';
 
 /**
@@ -117,11 +117,6 @@ if (process.env.NODE_ENV === 'development') {
   // only use in development
   app.use(errorHandler());
 }
-
-/**
- * Init SocketIO
- */
-socketService.initialize(io);
 
 /**
  * Init Serial Port

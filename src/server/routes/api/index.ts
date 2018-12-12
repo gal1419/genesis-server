@@ -1,37 +1,43 @@
 import express from 'express';
-import request from 'request';
 import * as passportConfig from '../../config/passport';
+import UnityRestService from '../../services/unity-rest-service';
+import StateManager from '../../states-manager/services/state-manager';
+import scenesService from '../../states-manager/services/scenes-service';
 
 const apiRouter = express.Router();
 
-const startGame = (req, res, next) => {
-  res.status(200).json({ msg: 'Game Started' });
-};
+const loadScene = (req, res, next) => {
+  const { sceneName } = req.body;
+  const stateManager = StateManager.getInstance();
+  const scene = scenesService.getSceneByName(sceneName);
 
-const iniitlizeGame = (req, res, next) => {
-  res.status(200).json({ msg: 'Game Initilized' });
+  if (!scene) {
+    res.status(404).json({ msg: 'Scene not found' });
+    return;
+  }
+
+  stateManager.setState(scene);
+  stateManager.execute();
+  res.status(200).json({ msg: 'OK' });
 };
 
 /**
- * POST /api/initilize-game
- * Initialize the Game
- */
-apiRouter.post(
-  '/initilize-game',
-  passportConfig.isAuthenticated,
-  passportConfig.roleAuthorization(['admin']),
-  iniitlizeGame
-);
-
-/**
- * POST /api/start-game
+ * POST /api/load-scene
  * Start the game
  */
-apiRouter.post(
-  '/start-game',
-  passportConfig.isAuthenticated,
-  passportConfig.roleAuthorization(['admin']),
-  startGame
-);
+// apiRouter.post(
+//   '/load-scene',
+//   passportConfig.isAuthenticated,
+//   passportConfig.roleAuthorization(['admin']),
+//   loadScene
+// );
+
+/**
+ * POST /api/load-scene
+ * Start the game
+ */
+apiRouter.post('/load-scene', loadScene);
+
+apiRouter.post('/unity', UnityRestService.handleIncomingMessage);
 
 export default apiRouter;

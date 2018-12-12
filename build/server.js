@@ -28,18 +28,17 @@ var express_validator_1 = __importDefault(require("express-validator"));
 var express_status_monitor_1 = __importDefault(require("express-status-monitor"));
 var node_sass_middleware_1 = __importDefault(require("node-sass-middleware"));
 var http = __importStar(require("http"));
-var socket_service_1 = __importDefault(require("./services/socket-service"));
 var serial_service_1 = __importDefault(require("./services/serial-service"));
 /**
  * API keys and Passport configuration.
  */
 var api_1 = __importDefault(require("./routes/api"));
-var auth_1 = __importDefault(require("./routes/auth"));
+var user_1 = __importDefault(require("./routes/user"));
 var MongoStore = require('connect-mongo')(express_session_1.default);
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-dotenv_1.default.load({ path: '.env.example' });
+dotenv_1.default.config();
 /**
  * Connect to MongoDB.
  */
@@ -78,7 +77,7 @@ app.use(express_session_1.default({
     resave: true,
     saveUninitialized: true,
     secret: process.env.SESSION_SECRET,
-    cookie: { maxAge: 1209600000 },
+    cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 * 2 },
     store: new MongoStore({
         url: process.env.MONGODB_URI,
         autoReconnect: true
@@ -97,18 +96,11 @@ app.use(function (req, res, next) {
     res.locals.user = req.user;
     next();
 });
-app.use('/', express_1.default.static(path_1.default.join(__dirname, 'public'), { maxAge: 31557600000 }));
-app.use('/js/lib', express_1.default.static(path_1.default.join(__dirname, 'node_modules/popper.js/dist/umd'), { maxAge: 31557600000 }));
-app.use('/js/lib', express_1.default.static(path_1.default.join(__dirname, 'node_modules/bootstrap/dist/js'), { maxAge: 31557600000 }));
-app.use('/js/lib', express_1.default.static(path_1.default.join(__dirname, 'node_modules/jquery/dist'), { maxAge: 31557600000 }));
-app.use('/webfonts', express_1.default.static(path_1.default.join(__dirname, 'node_modules/@fortawesome/fontawesome-free/webfonts'), {
-    maxAge: 31557600000
-}));
 /**
  * App routes.
  */
 app.use('/api', api_1.default);
-app.use('/auth', auth_1.default);
+app.use('/user', user_1.default);
 app.get('*', function (request, response) {
     response.sendFile(path_1.default.resolve(__dirname, '../../dist', 'index.html'));
 });
@@ -119,10 +111,6 @@ if (process.env.NODE_ENV === 'development') {
     // only use in development
     app.use(errorhandler_1.default());
 }
-/**
- * Init SocketIO
- */
-socket_service_1.default.initialize(io);
 /**
  * Init Serial Port
  */
