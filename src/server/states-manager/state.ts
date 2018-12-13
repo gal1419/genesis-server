@@ -48,7 +48,7 @@ export default abstract class State {
     this.manager.execute();
   }
 
-  addDefaultRestListener() {
+  setDefaultRestListener() {
     this.setRestListener((request, response) => {
       if (request.body && request.body.SceneEnd === '') {
         this.moveToNextScene();

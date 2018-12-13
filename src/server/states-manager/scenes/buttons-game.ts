@@ -6,27 +6,26 @@ import scenesService from '../services/scenes-service';
 class ButtonsGame extends State {
   manager: StateManager;
 
-  readonly sceneName = 'ButtonsGame';
+  timer: NodeJS.Timeout;
 
-  constructor() {
-    super();
-  }
+  readonly sceneName = 'ButtonsGame';
 
   execute = (manager: StateManager): void => {
     this.manager = manager;
     super.setSerialPortListener(this.arduinoListener);
-    super.addDefaultRestListener();
+    super.setDefaultRestListener();
 
     const clue = scenesService.getSceneClue(this.sceneName);
-    setTimeout(() => {
+    this.timer = setTimeout(() => {
       super.loadUnityScene(false, clue);
-    }, 1200);
+    }, 1000 * 60 * 2);
   };
 
   arduinoListener(data) {
     if (data === ArduinoEvents.ButtonsGameEvent) {
+      clearTimeout(this.timer);
       super.loadUnityScene(false, 'GenesisAfterColorDrawerOpened');
-      super.addDefaultRestListener();
+      super.setDefaultRestListener();
     }
   }
 }

@@ -8,10 +8,6 @@ class ButtonsGameClue extends State {
 
   readonly sceneName = 'ButtonsGame';
 
-  constructor() {
-    super();
-  }
-
   execute = (manager: StateManager): void => {};
 
   arduinoListener(data) {}

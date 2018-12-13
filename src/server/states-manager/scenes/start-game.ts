@@ -6,13 +6,9 @@ class StartGame extends State {
 
   manager: StateManager;
 
-  constructor() {
-    super();
-  }
-
   execute = (manager: StateManager): void => {
     this.manager = manager;
-    super.addDefaultRestListener();
+    super.setDefaultRestListener();
     super.loadUnityScene(true);
   };
 }
