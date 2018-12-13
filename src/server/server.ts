@@ -16,8 +16,7 @@ import expressValidator from 'express-validator';
 import expressStatusMonitor from 'express-status-monitor';
 import sass from 'node-sass-middleware';
 import * as http from 'http';
-import socketService from './services/unity-rest-service';
-import serialService from './services/serial-service';
+import arduinoService from './services/arduino-service';
 
 /**
  * API keys and Passport configuration.
@@ -119,9 +118,9 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 /**
- * Init Serial Port
+ * Init Arduino service
  */
-serialService.initialize();
+arduinoService.initialize();
 
 /**
  * Start server.

@@ -1,6 +1,6 @@
 import { StateManager } from './services/state-manager';
 import UnityRestService, { UnityRestListenerType } from '../services/unity-rest-service';
-import SerialPortService, { SerialPortListenerType } from '../services/serial-service';
+import ArduinoService, { ArduinoListenerType } from '../services/arduino-service';
 
 import { Constans } from './constans';
 import scenesService from './services/scenes-service';
@@ -26,8 +26,8 @@ export default abstract class State {
     return this.sceneName;
   }
 
-  setSerialPortListener(serialPortListener: SerialPortListenerType) {
-    SerialPortService.addListener(this.sceneName, serialPortListener);
+  setSerialPortListener(serialPortListener: ArduinoListenerType) {
+    ArduinoService.addListener(this.sceneName, serialPortListener);
   }
 
   setRestListener(listener: UnityRestListenerType) {
@@ -39,7 +39,7 @@ export default abstract class State {
   }
 
   removeSerialListener() {
-    SerialPortService.removeListener(this.sceneName);
+    ArduinoService.removeListener(this.sceneName);
   }
 
   moveToNextScene() {

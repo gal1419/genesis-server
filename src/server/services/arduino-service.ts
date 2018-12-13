@@ -2,14 +2,14 @@ import SerialPort from 'serialport';
 import Readline from '@serialport/parser-readline';
 import _ from 'lodash';
 
-export type SerialPortListenerType = (data: string) => any;
+export type ArduinoListenerType = (data: string) => any;
 
-class SerialPortService {
+class ArduinoService {
   private serialInstance;
 
   private parser;
 
-  private listenersMap: Map<string, SerialPortListenerType> = new Map();
+  private listenersMap: Map<string, ArduinoListenerType> = new Map();
 
   initialize() {
     if (this.serialInstance) {
@@ -47,7 +47,7 @@ class SerialPortService {
     });
   }
 
-  addListener(listenerId: string, listener: SerialPortListenerType) {
+  addListener(listenerId: string, listener: ArduinoListenerType) {
     this.listenersMap.set(listenerId, listener);
   }
 
@@ -56,4 +56,4 @@ class SerialPortService {
   }
 }
 
-export default new SerialPortService();
+export default new ArduinoService();
