@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Redirect } from 'react-router-dom';
-import AuthService from '../../services/auth-service';
+import AuthService from '../../services/AuthService';
 
 export default class Login extends React.Component {
   state = {

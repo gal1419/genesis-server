@@ -6,7 +6,7 @@ import './app.css';
 import MainArea from './components/MainArea/MainArea';
 import AdminArea from './components/AdminArea/AdminArea';
 import Login from './components/Login/Login';
-import AuthService from './services/auth-service';
+import AuthService from './services/AuthService';
 
 export default class App extends Component {
   componentDidMount() {}

@@ -5,7 +5,10 @@ import { ReactTerminal } from 'react-terminal-component';
 //   Outputs,
 // } from 'javascript-terminal';
 import {
-  EmulatorState, CommandMapping, defaultCommandMapping, OutputFactory
+  EmulatorState,
+  CommandMapping,
+  defaultCommandMapping,
+  OutputFactory
 } from 'javascript-terminal';
 
 class MainArea extends Component {
@@ -17,6 +20,7 @@ class MainArea extends Component {
       hack: {
         function: (state, opts) => {
           const input = opts.join(' ');
+          console.log(input);
 
           return {
             output: OutputFactory.makeTextOutput('you starting hack to Halnet')
@@ -37,7 +41,11 @@ class MainArea extends Component {
   componentDidMount() {}
 
   render() {
-    return (<div><ReactTerminal emulatorState={this.emulatorState} /></div>);
+    return (
+      <div>
+        <ReactTerminal emulatorState={this.emulatorState} />
+      </div>
+    );
   }
 }
 
