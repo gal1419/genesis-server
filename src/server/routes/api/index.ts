@@ -38,6 +38,8 @@ const loadScene = (req, res, next) => {
  */
 apiRouter.post('/load-scene', loadScene);
 
-apiRouter.post('/unity', UnityRestService.handleIncomingMessage);
+apiRouter.post('/unity', (req, res) => {
+  UnityRestService.handleIncomingMessage(req, res);
+});
 
 export default apiRouter;

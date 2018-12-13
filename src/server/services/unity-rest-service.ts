@@ -3,7 +3,7 @@ import request from 'request-promise';
 export type UnityRestListenerType = (request, response) => any;
 
 class UnityRestService {
-  private static listenersMap: Map<string, UnityRestListenerType> = new Map();
+  private listenersMap: Map<string, UnityRestListenerType> = new Map();
 
   sendPrimaryUnityMessage(event: string, body: string) {
     const url = `http://${process.env.PRIMARY_UNITY_IP}:${
@@ -32,22 +32,22 @@ class UnityRestService {
   }
 
   handleIncomingMessage(request, response) {
-    console.log(UnityRestService.listenersMap);
-    UnityRestService.listenersMap.forEach((value) => {
+    console.log(this.listenersMap);
+    this.listenersMap.forEach((value) => {
       value(request, response);
     });
   }
 
   addListener(listenerId: string, listener: UnityRestListenerType) {
-    console.log(UnityRestService.listenersMap);
-    UnityRestService.listenersMap.set(listenerId, listener);
-    console.log(UnityRestService.listenersMap);
+    console.log(this.listenersMap);
+    this.listenersMap.set(listenerId, listener);
+    console.log(this.listenersMap);
   }
 
   removeListener(listenerId: string) {
-    console.log(UnityRestService.listenersMap);
-    UnityRestService.listenersMap.delete(listenerId);
-    console.log(UnityRestService.listenersMap);
+    console.log(this.listenersMap);
+    this.listenersMap.delete(listenerId);
+    console.log(this.listenersMap);
   }
 }
 
