@@ -9,8 +9,6 @@ class Registration extends State {
   }
 
   execute = (manager: StateManager): void => {};
-
-  destroy = (): void => {};
 }
 
 export default new Registration();

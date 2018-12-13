@@ -9,10 +9,8 @@ class WaitToBegin extends State {
   }
 
   execute = (manager: StateManager): void => {
-    super.loadUnityScene(this.sceneName, false);
+    super.loadUnityScene(false);
   };
-
-  destroy = (): void => {};
 }
 
 export default new WaitToBegin();

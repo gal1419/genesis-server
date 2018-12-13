@@ -5,10 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var serialport_1 = __importDefault(require("serialport"));
 var parser_readline_1 = __importDefault(require("@serialport/parser-readline"));
-var lodash_1 = __importDefault(require("lodash"));
 var SerialPortService = /** @class */ (function () {
     function SerialPortService() {
-        this.listeners = [];
+        this.listenersMap = new Map();
     }
     SerialPortService.prototype.initialize = function () {
         var _this = this;
@@ -24,7 +23,7 @@ var SerialPortService = /** @class */ (function () {
         this.parser = this.serialInstance.pipe(new parser_readline_1.default({ delimiter: '\r\n' }));
         this.parser.on('data', function (data) {
             console.log("Data: " + data);
-            _this.listeners.forEach(function (value) {
+            _this.listenersMap.forEach(function (value) {
                 value(data);
             });
         });
@@ -40,11 +39,11 @@ var SerialPortService = /** @class */ (function () {
             console.log('message written');
         });
     };
-    SerialPortService.prototype.addListener = function (listener) {
-        this.listeners.push(listener);
+    SerialPortService.prototype.addListener = function (listenerId, listener) {
+        this.listenersMap.set(listenerId, listener);
     };
-    SerialPortService.prototype.removeListener = function (listener) {
-        lodash_1.default.remove(this.listeners, listener);
+    SerialPortService.prototype.removeListener = function (listenerId) {
+        this.listenersMap.delete(listenerId);
     };
     return SerialPortService;
 }());

@@ -3,18 +3,22 @@ import UnityRestService, { UnityRestListenerType } from '../services/unity-rest-
 import SerialPortService, { SerialPortListenerType } from '../services/serial-service';
 
 import { Constans } from './constans';
+import scenesService from './services/scenes-service';
 
 export default abstract class State {
+  manager: StateManager;
+
   abstract readonly sceneName;
 
   constructor() {}
 
-  loadUnityScene(sceneName: string, sendToSecondaryUnity: boolean) {
-    const message = `${Constans.LOAD_SCENE}:${sceneName}`;
-    UnityRestService.sendPrimaryUnityMessage(Constans.LOAD_SCENE, message);
+  loadUnityScene(sendToSecondaryUnity: boolean, alternaticeSceneName?: string) {
+    const sceneToLoad = alternaticeSceneName || this.sceneName;
+    const message = `${Constans.LOAD_SCENE}:${sceneToLoad}`;
+    UnityRestService.sendPrimaryUnityMessage('load-scene', message);
 
     if (sendToSecondaryUnity) {
-      UnityRestService.sendPrimaryUnityMessage(Constans.LOAD_SCENE, sceneName);
+      UnityRestService.sendPrimaryUnityMessage(Constans.LOAD_SCENE, message);
     }
   }
 
@@ -23,14 +27,39 @@ export default abstract class State {
   }
 
   setSerialPortListener(serialPortListener: SerialPortListenerType) {
-    SerialPortService.addListener(serialPortListener);
+    SerialPortService.addListener(this.sceneName, serialPortListener);
   }
 
-  setRestListener(listenerId: string, listener: UnityRestListenerType) {
-    UnityRestService.addListener(listenerId, listener);
+  setRestListener(listener: UnityRestListenerType) {
+    UnityRestService.addListener(this.sceneName, listener);
+  }
+
+  removeRestListener() {
+    UnityRestService.removeListener(this.sceneName);
+  }
+
+  removeSerialListener() {
+    SerialPortService.removeListener(this.sceneName);
+  }
+
+  moveToNextScene() {
+    const nextScene = scenesService.getNextSceneByName(this.sceneName);
+    this.manager.setState(nextScene);
+    this.manager.execute();
+  }
+
+  addDefaultRestListener() {
+    this.setRestListener((request, response) => {
+      if (request.body && request.body.SceneEnd === '') {
+        this.moveToNextScene();
+      }
+    });
   }
 
   abstract execute: (manager: StateManager) => void;
 
-  abstract destroy: () => void;
+  destroy(): void {
+    this.removeRestListener();
+    this.removeRestListener();
+  }
 }

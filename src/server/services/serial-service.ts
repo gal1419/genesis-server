@@ -9,7 +9,7 @@ class SerialPortService {
 
   private parser;
 
-  private listeners: Array<(data: string) => any> = [];
+  private listenersMap: Map<string, SerialPortListenerType> = new Map();
 
   initialize() {
     if (this.serialInstance) {
@@ -28,7 +28,7 @@ class SerialPortService {
 
     this.parser.on('data', (data) => {
       console.log(`Data: ${data}`);
-      this.listeners.forEach((value) => {
+      this.listenersMap.forEach((value) => {
         value(data);
       });
     });
@@ -47,12 +47,12 @@ class SerialPortService {
     });
   }
 
-  addListener(listener: (data: string) => any) {
-    this.listeners.push(listener);
+  addListener(listenerId: string, listener: SerialPortListenerType) {
+    this.listenersMap.set(listenerId, listener);
   }
 
-  removeListener(listener: (data: string) => any) {
-    _.remove(this.listeners, listener);
+  removeListener(listenerId: string) {
+    this.listenersMap.delete(listenerId);
   }
 }
 

@@ -1,8 +1,8 @@
 import State from '../state';
 import { StateManager } from '../services/state-manager';
 
-class StartGame extends State {
-  readonly sceneName = 'GenesisGreeting';
+class TimerWithGenesis extends State {
+  readonly sceneName = 'TimerWithGenesis';
 
   manager: StateManager;
 
@@ -17,4 +17,4 @@ class StartGame extends State {
   };
 }
 
-export default new StartGame();
+export default new TimerWithGenesis();
