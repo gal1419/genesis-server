@@ -1,25 +1,24 @@
-# simple-react-full-stack
+# Genesis Server
 
-[![Build Status](https://travis-ci.org/gal1419/HalNet-Server.svg?branch=master)](https://travis-ci.org/gal1419/HalNet-Server)
+[![Build Status](https://travis-ci.org/gal1419/genesis-server.svg?branch=master)](https://travis-ci.org/gal1419/genesis-server)
 
 This is a boilerplate to build a full stack web application using React, Node.js, Express and Webpack. It is also configured with webpack-dev-server, eslint, prettier and babel.
 
-- [simple-react-full-stack](#simple-react-full-stack)
-  - [Introduction](#introduction)
-    - [Development mode](#development-mode)
-    - [Production mode](#production-mode)
-  - [Quick Start](#quick-start)
-  - [Documentation](#documentation)
-    - [Folder Structure](#folder-structure)
-    - [Babel](#babel)
-    - [ESLint](#eslint)
-    - [Webpack](#webpack)
-    - [Webpack dev server](#webpack-dev-server)
-    - [Nodemon](#nodemon)
-    - [Express](#express)
-    - [Concurrently](#concurrently)
-    - [VSCode + ESLint + Prettier](#vscode--eslint--prettier)
-      - [Installation guide](#installation-guide)
+- [Introduction](#introduction)
+  - [Development mode](#development-mode)
+  - [Production mode](#production-mode)
+- [Quick Start](#quick-start)
+- [Documentation](#documentation)
+  - [Folder Structure](#folder-structure)
+  - [Babel](#babel)
+  - [ESLint](#eslint)
+  - [Webpack](#webpack)
+  - [Webpack dev server](#webpack-dev-server)
+  - [Nodemon](#nodemon)
+  - [Express](#express)
+  - [Concurrently](#concurrently)
+  - [VSCode + ESLint + Prettier](#vscode--eslint--prettier)
+    - [Installation guide](#installation-guide)
 
 ## Introduction
 
@@ -39,10 +38,10 @@ In the production mode, we will have only 1 server running. All the client side 
 
 ```bash
 # Clone the repository
-git clone https://github.com/gal1419/HalNet-Server.git HalNet
+git clone https://github.com/gal1419/genesis-server.git genesis-server
 
 # Go inside the directory
-cd HalNet
+cd genesis-server
 
 # Install dependencies
 yarn
