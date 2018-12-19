@@ -3,6 +3,7 @@ import * as passportConfig from '../../config/passport';
 import UnityRestService from '../../services/unity-rest-service';
 import StateManager from '../../states-manager/services/state-manager';
 import scenesService from '../../states-manager/services/scenes-service';
+import commandService from '../../services/commands-service';
 
 const apiRouter = express.Router();
 
@@ -42,4 +43,10 @@ apiRouter.post('/unity', (req, res) => {
   UnityRestService.handleIncomingMessage(req, res);
 });
 
+apiRouter.get('/commands/:command/:user_uniqueness', (req, res) => {
+  commandService.runCommand(req, res);
+});
+apiRouter.get('/commands', (req, res) => {
+  commandService.getCommands(req, res);
+});
 export default apiRouter;

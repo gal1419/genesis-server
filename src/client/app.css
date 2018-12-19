@@ -1,0 +1,46 @@
+  
+
+
+.bOtCtN.terminalContainer {
+  height: 100vh;
+  padding: 0;
+  line-height: 2.2em;
+  font-size: 1.3rem;
+  margin-top: -5px;
+  background: black;
+  overflow-y: auto;
+}
+.terminalContainer .WvDaY {
+  background: black;
+}
+
+.terminal-alert-image-container {
+  background: black;
+}
+
+img {
+  display: inline-block;
+  width: 100%;
+}
+
+.load-bar {
+  position: relative;
+  width: 100%;
+  height: 3px;
+  background-color: grey;
+}
+.bar {
+  position: absolute;
+  width: 0;
+  height: 100%;
+  background-color: white;
+  animation: loading 15s linear 1;
+  animation-fill-mode: forwards;
+}
+@keyframes loading {
+    to {left: 0%; width: 100%;}
+}
+
+.sc-EHOje.hcvAEY .sc-ifAKCX.cFlEyZ {
+  display: none;
+}

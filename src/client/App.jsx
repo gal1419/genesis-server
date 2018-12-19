@@ -4,6 +4,8 @@ import {
 } from 'react-router-dom';
 import './app.css';
 import MainArea from './components/MainArea/MainArea';
+import Terminal from './components/Terminal/Terminal';
+import CoreTerminal from './components/Terminal/CoreTerminal';
 import AdminArea from './components/AdminArea/AdminArea';
 import Login from './components/Login/Login';
 import AuthService from './services/AuthService';
@@ -15,7 +17,7 @@ export default class App extends Component {
     return (
       <Router>
         <div>
-          <AuthButton />
+          {/* <AuthButton />
           <ul>
             <li>
               <Link to="/">Public Page</Link>
@@ -23,8 +25,10 @@ export default class App extends Component {
             <li>
               <Link to="/admin">Protected Page</Link>
             </li>
-          </ul>
+          </ul> */}
           <Route exact path="/" component={MainArea} />
+          {/* <Route exact path="/core" component={Terminal} /> */}
+          <Route exact path="/core" component={CoreTerminal} />
           <Route path="/login" component={Login} />
           <PrivateRoute exact path="/admin" component={AdminArea} />
         </div>

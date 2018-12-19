@@ -17,6 +17,7 @@ import expressStatusMonitor from 'express-status-monitor';
 import sass from 'node-sass-middleware';
 import * as http from 'http';
 import arduinoService from './services/arduino-service';
+import commandsService from './services/commands-service';
 
 /**
  * API keys and Passport configuration.
@@ -121,6 +122,8 @@ if (process.env.NODE_ENV === 'development') {
  * Init Arduino service
  */
 arduinoService.initialize();
+
+commandsService.initialize();
 
 /**
  * Start server.
