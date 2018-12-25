@@ -22,6 +22,21 @@ const loadScene = (req, res, next) => {
   res.status(200).json({ msg: 'OK' });
 };
 
+const loadSceneGet = (req, res, next) => {
+  const sceneName  = req.params.scene_name
+  const stateManager = StateManager.getInstance();
+  const scene = scenesService.getSceneByName(sceneName);
+
+  if (!scene) {
+    res.status(404).json({ msg: 'Scene not found' });
+    return;
+  }
+
+  stateManager.setState(scene);
+  stateManager.execute();
+  res.status(200).json({ msg: 'OK' });
+};
+
 /**
  * POST /api/load-scene
  * Start the game
@@ -38,6 +53,8 @@ const loadScene = (req, res, next) => {
  * Start the game
  */
 apiRouter.post('/load-scene', loadScene);
+
+apiRouter.get('/load-scene/:scene_name', loadSceneGet);
 
 apiRouter.post('/unity', (req, res) => {
   UnityRestService.handleIncomingMessage(req, res);

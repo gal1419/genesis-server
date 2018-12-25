@@ -18,7 +18,7 @@ export default abstract class State {
     UnityRestService.sendPrimaryUnityMessage('load-scene', message);
 
     if (sendToSecondaryUnity) {
-      UnityRestService.sendPrimaryUnityMessage(Constans.LOAD_SCENE, message);
+      UnityRestService.sendSecondryUnityMessage(Constans.LOAD_SCENE, message);
     }
   }
 
@@ -43,7 +43,9 @@ export default abstract class State {
   }
 
   moveToNextScene() {
+    console.log('SceneEnd: ' + this.sceneName);
     const nextScene = scenesService.getNextSceneByName(this.sceneName);
+    console.log('nextScene: ' + nextScene);
     this.manager.setState(nextScene);
     this.manager.execute();
   }
@@ -51,6 +53,7 @@ export default abstract class State {
   setDefaultRestListener() {
     this.setRestListener((request, response) => {
       if (request.body && request.body.SceneEnd === '') {
+        console.log('SceneEnd');
         this.moveToNextScene();
       }
     });
