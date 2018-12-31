@@ -7,9 +7,9 @@ import commandService from '../../services/commands-service';
 
 const apiRouter = express.Router();
 
+const stateManager = StateManager.getInstance();
 const loadScene = (req, res, next) => {
   const { sceneName } = req.body;
-  const stateManager = StateManager.getInstance();
   const scene = scenesService.getSceneByName(sceneName);
 
   if (!scene) {
@@ -57,7 +57,7 @@ apiRouter.post('/load-scene', loadScene);
 apiRouter.get('/load-scene/:scene_name', loadSceneGet);
 
 apiRouter.post('/unity', (req, res) => {
-  UnityRestService.handleIncomingMessage(req, res);
+  stateManager.handleRestRequest(req, res);
 });
 
 apiRouter.get('/commands/:command/:user_uniqueness', (req, res) => {

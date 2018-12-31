@@ -13,7 +13,6 @@ class MazeGame extends State {
   execute = (manager: StateManager): void => {
     this.manager = manager;
     super.setSerialPortListener(this.arduinoListener);
-    super.setDefaultRestListener();
 
     const clue = scenesService.getSceneClue(this.sceneName);
     this.timer = setTimeout(() => {
@@ -25,7 +24,6 @@ class MazeGame extends State {
     if (data === ArduinoEvents.GlassesDrawerOpened) {
       clearTimeout(this.timer);
       super.loadUnityScene(false, 'GenesisAfterMazeDrawerOpened');
-      super.setDefaultRestListener();
     }
   };
 }

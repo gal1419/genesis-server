@@ -26,6 +26,10 @@ export class StateManager {
   public execute(): void {
     this._currentState.execute(this);
   }
+
+  public handleRestRequest(request, response): void {
+    this._currentState.handleRestRequest(request, response);
+  }
 }
 
 export default StateManager;

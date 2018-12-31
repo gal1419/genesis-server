@@ -13,7 +13,6 @@ class NumbersGame extends State {
   execute = (manager: StateManager): void => {
     this.manager = manager;
     super.setSerialPortListener(this.arduinoListener);
-    super.setDefaultRestListener();
 
     const clue = scenesService.getSceneClue(this.sceneName);
     this.timer = setTimeout(() => {
@@ -25,7 +24,6 @@ class NumbersGame extends State {
     if (data === ArduinoEvents.CoreDrawerOpened) {
       clearTimeout(this.timer);
       super.loadUnityScene(false, 'GenesisAfterCoreDrawerOpened');
-      super.setDefaultRestListener();
     }
   };
 }
