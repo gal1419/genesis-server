@@ -3,12 +3,12 @@ import { StateManager } from '../services/state-manager';
 import scenesService from '../services/scenes-service';
 import { ArduinoEvents } from '../constans';
 
-class ButtonsGame extends State {
+class NumbersGame extends State {
   manager: StateManager;
 
   timer: NodeJS.Timeout;
 
-  readonly sceneName = 'ButtonsGame';
+  readonly sceneName = 'SwitchesGame';
 
   execute = (manager: StateManager): void => {
     this.manager = manager;
@@ -22,12 +22,12 @@ class ButtonsGame extends State {
   };
 
   arduinoListener = (data) => {
-    if (data === ArduinoEvents.SnakeDrawerOpened) {
+    if (data === ArduinoEvents.CoreDrawerOpened) {
       clearTimeout(this.timer);
-      super.loadUnityScene(false, 'GenesisAfterSnakeDrawerOpened');
+      super.loadUnityScene(false, 'GenesisAfterCoreDrawerOpened');
       super.setDefaultRestListener();
     }
   };
 }
 
-export default new ButtonsGame();
+export default new NumbersGame();

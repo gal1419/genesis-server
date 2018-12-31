@@ -7,9 +7,22 @@ var express_1 = __importDefault(require("express"));
 var unity_rest_service_1 = __importDefault(require("../../services/unity-rest-service"));
 var state_manager_1 = __importDefault(require("../../states-manager/services/state-manager"));
 var scenes_service_1 = __importDefault(require("../../states-manager/services/scenes-service"));
+var commands_service_1 = __importDefault(require("../../services/commands-service"));
 var apiRouter = express_1.default.Router();
 var loadScene = function (req, res, next) {
     var sceneName = req.body.sceneName;
+    var stateManager = state_manager_1.default.getInstance();
+    var scene = scenes_service_1.default.getSceneByName(sceneName);
+    if (!scene) {
+        res.status(404).json({ msg: 'Scene not found' });
+        return;
+    }
+    stateManager.setState(scene);
+    stateManager.execute();
+    res.status(200).json({ msg: 'OK' });
+};
+var loadSceneGet = function (req, res, next) {
+    var sceneName = req.params.scene_name;
     var stateManager = state_manager_1.default.getInstance();
     var scene = scenes_service_1.default.getSceneByName(sceneName);
     if (!scene) {
@@ -35,6 +48,15 @@ var loadScene = function (req, res, next) {
  * Start the game
  */
 apiRouter.post('/load-scene', loadScene);
-apiRouter.post('/unity', unity_rest_service_1.default.handleIncomingMessage);
+apiRouter.get('/load-scene/:scene_name', loadSceneGet);
+apiRouter.post('/unity', function (req, res) {
+    unity_rest_service_1.default.handleIncomingMessage(req, res);
+});
+apiRouter.get('/commands/:command/:user_uniqueness', function (req, res) {
+    commands_service_1.default.runCommand(req, res);
+});
+apiRouter.get('/commands', function (req, res) {
+    commands_service_1.default.getCommands(req, res);
+});
 exports.default = apiRouter;
 //# sourceMappingURL=index.js.map

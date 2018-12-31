@@ -28,7 +28,8 @@ var express_validator_1 = __importDefault(require("express-validator"));
 var express_status_monitor_1 = __importDefault(require("express-status-monitor"));
 var node_sass_middleware_1 = __importDefault(require("node-sass-middleware"));
 var http = __importStar(require("http"));
-var serial_service_1 = __importDefault(require("./services/serial-service"));
+var arduino_service_1 = __importDefault(require("./services/arduino-service"));
+var commands_service_1 = __importDefault(require("./services/commands-service"));
 /**
  * API keys and Passport configuration.
  */
@@ -112,9 +113,10 @@ if (process.env.NODE_ENV === 'development') {
     app.use(errorhandler_1.default());
 }
 /**
- * Init Serial Port
+ * Init Arduino service
  */
-serial_service_1.default.initialize();
+arduino_service_1.default.initialize();
+commands_service_1.default.initialize();
 /**
  * Start server.
  */

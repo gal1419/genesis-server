@@ -6,6 +6,11 @@ import State from '../state';
 import defensiveMechanismActivated from '../scenes/defensive-mechanism-activated';
 import buttonsGame from '../scenes/buttons-game';
 import buttonsGameClue from '../scenes/buttons-game-clue';
+import mazeGame from '../scenes/maze-game';
+import numbersGame from '../scenes/numbers-game';
+import switchesGame from '../scenes/switches-game';
+import chipGame from '../scenes/chip-game';
+import timerWithGenesis from '../scenes/timer-with-genesis';
 
 interface sceneOrder {
   name: string;
@@ -32,17 +37,32 @@ class ScenesService {
       value: defensiveMechanismActivated
     },
     {
+      name: 'TimerWithGenesis',
+      value: timerWithGenesis
+    },
+    {
       name: 'ButtonsGame',
       value: buttonsGame,
       clue: 'ButtonsGameClue'
-    }
-  ];
-
-  clues = [
+    },
     {
-      name: 'ButtonsGameClue',
-      value: buttonsGameClue
-    }
+      name: 'MazeGame',
+      value: mazeGame
+    },
+    {
+      name: 'NumbersGame',
+      value: numbersGame,
+      clue: 'NumbersGameClue'
+    },
+    {
+      name: 'SwitchesGame',
+      value: switchesGame,
+      clue: 'SwitchesGameClue'
+    },    
+    {
+      name: 'ChipGame',
+      value: chipGame,
+    },
   ];
 
   constructor() {}

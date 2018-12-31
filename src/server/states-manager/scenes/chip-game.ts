@@ -3,12 +3,12 @@ import { StateManager } from '../services/state-manager';
 import scenesService from '../services/scenes-service';
 import { ArduinoEvents } from '../constans';
 
-class ButtonsGame extends State {
+class ChipGame extends State {
   manager: StateManager;
 
   timer: NodeJS.Timeout;
 
-  readonly sceneName = 'ButtonsGame';
+  readonly sceneName = 'ChipGame';
 
   execute = (manager: StateManager): void => {
     this.manager = manager;
@@ -18,16 +18,16 @@ class ButtonsGame extends State {
     const clue = scenesService.getSceneClue(this.sceneName);
     this.timer = setTimeout(() => {
       super.loadUnityScene(false, clue);
-    }, 1000 * 60 * 2);
+    }, 1000 * 60 * 3);
   };
 
   arduinoListener = (data) => {
-    if (data === ArduinoEvents.SnakeDrawerOpened) {
+    if (data === ArduinoEvents.FrameChipRemoved) {
       clearTimeout(this.timer);
-      super.loadUnityScene(false, 'GenesisAfterSnakeDrawerOpened');
+      super.loadUnityScene(false, 'GenesisAfterRemovingChip');
       super.setDefaultRestListener();
     }
   };
 }
 
-export default new ButtonsGame();
+export default new ChipGame();

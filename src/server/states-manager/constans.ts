@@ -7,5 +7,9 @@ export class Constans {
 }
 
 export enum ArduinoEvents {
-  ButtonsGameEvent = 1
+  SnakeDrawerOpened = 'SnakeDrawerOpened',
+  GlassesDrawerOpened = 'GlassesDrawerOpened',
+  CoreDrawerOpened = 'CoreDrawerOpened',
+  FrameChipRemoved = 'FrameChipRemoved',
+  VRDrawerOpened = 'VRDrawerOpened',
 }

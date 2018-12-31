@@ -45,7 +45,7 @@ export default abstract class State {
   moveToNextScene() {
     console.log('SceneEnd: ' + this.sceneName);
     const nextScene = scenesService.getNextSceneByName(this.sceneName);
-    console.log('nextScene: ' + nextScene);
+    console.log('nextScene: ' + nextScene.sceneName);
     this.manager.setState(nextScene);
     this.manager.execute();
   }
@@ -53,7 +53,6 @@ export default abstract class State {
   setDefaultRestListener() {
     this.setRestListener((request, response) => {
       if (request.body && request.body.SceneEnd === '') {
-        console.log('SceneEnd');
         this.moveToNextScene();
       }
     });
@@ -63,6 +62,6 @@ export default abstract class State {
 
   destroy(): void {
     this.removeRestListener();
-    this.removeRestListener();
+    this.removeSerialListener();
   }
 }

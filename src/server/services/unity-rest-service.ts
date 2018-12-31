@@ -34,22 +34,17 @@ class UnityRestService {
   }
 
   handleIncomingMessage(request, response) {
-    console.log(this.listenersMap);
     this.listenersMap.forEach((value) => {
       value(request, response);
     });
   }
 
   addListener(listenerId: string, listener: UnityRestListenerType) {
-    console.log(this.listenersMap);
     this.listenersMap.set(listenerId, listener);
-    console.log(this.listenersMap);
   }
 
   removeListener(listenerId: string) {
-    console.log(this.listenersMap);
     this.listenersMap.delete(listenerId);
-    console.log(this.listenersMap);
   }
 }
 
