@@ -30,10 +30,6 @@ export default abstract class State {
     ArduinoService.addListener(this.sceneName, serialPortListener);
   }
 
-  setRestListener(listener: UnityRestListenerType) {
-    UnityRestService.addListener(this.sceneName, listener);
-  }
-
   removeRestListener() {
     UnityRestService.removeListener(this.sceneName);
   }
@@ -50,12 +46,11 @@ export default abstract class State {
     this.manager.execute();
   }
 
-  setDefaultRestListener() {
-    this.setRestListener((request, response) => {
-      if (request.body && request.body.SceneEnd === '') {
-        this.moveToNextScene();
-      }
-    });
+  handleRestRequest(request, response) {
+    if (request.body && request.body.SceneEnd === '') {
+      this.moveToNextScene();
+    }
+    response.status(200).json({ msg: 'OK' });
   }
 
   abstract execute: (manager: StateManager) => void;

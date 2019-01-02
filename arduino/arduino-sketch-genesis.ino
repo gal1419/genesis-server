@@ -15,8 +15,9 @@ int inPinsStates[LEN(inPins)];
 
 /* Output */
 
-#define RED_LIGHTS_PIN 12
-int outPins[] = {RED_LIGHTS_PIN};
+#define LED_LIGHTS_PIN 12
+int outPins[] = {LED_LIGHTS_PIN};
+#define MSG_BLUE_LIGHTS 98 //ascii for 'b'
 #define MSG_RED_LIGHTS 114 //ascii for 'r'
 
 /* Setup */
@@ -54,8 +55,12 @@ void loop() {
 }
 
 void handleMessagesFromComputer() {
-  if ((Serial.available() > 0) && (Serial.read() == MSG_RED_LIGHTS)) {
-    digitalWrite(RED_LIGHTS_PIN, HIGH);    
+  if (Serial.available() > 0) {
+    if (Serial.read() == MSG_BLUE_LIGHTS) {
+      digitalWrite(LED_LIGHTS_PIN, LOW);
+    } else if (Serial.read() == MSG_RED_LIGHTS) {
+      digitalWrite(LED_LIGHTS_PIN, HIGH);
+    }
   }  
 }
 
@@ -76,5 +81,3 @@ void logInPinStates() {
   }
   Serial.println("");  
 }
-
-
