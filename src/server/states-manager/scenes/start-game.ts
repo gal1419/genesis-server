@@ -8,7 +8,6 @@ class StartGame extends State {
 
   execute = (manager: StateManager): void => {
     this.manager = manager;
-    super.setDefaultRestListener();
     super.loadUnityScene(true);
   };
 }

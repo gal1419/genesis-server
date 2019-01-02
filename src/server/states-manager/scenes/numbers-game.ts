@@ -12,7 +12,6 @@ class NumbersGame extends State {
 
   execute = (manager: StateManager): void => {
     this.manager = manager;
-    super.setDefaultRestListener();
 
     const clue = scenesService.getSceneClue(this.sceneName);
     this.timer = setTimeout(() => {
