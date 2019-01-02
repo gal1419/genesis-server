@@ -1,6 +1,5 @@
 import { StateManager } from './services/state-manager';
-import UnityRestService, { UnityRestListenerType } from '../services/unity-rest-service';
-import ArduinoService, { ArduinoListenerType } from '../services/arduino-service';
+import UnityRestService from '../services/unity-rest-service';
 
 import { Constans } from './constans';
 import scenesService from './services/scenes-service';
@@ -8,7 +7,7 @@ import scenesService from './services/scenes-service';
 export default abstract class State {
   manager: StateManager;
 
-  abstract readonly sceneName;
+  abstract readonly sceneName: string;
 
   constructor() {}
 
@@ -26,22 +25,10 @@ export default abstract class State {
     return this.sceneName;
   }
 
-  setSerialPortListener(serialPortListener: ArduinoListenerType) {
-    ArduinoService.addListener(this.sceneName, serialPortListener);
-  }
-
-  removeRestListener() {
-    UnityRestService.removeListener(this.sceneName);
-  }
-
-  removeSerialListener() {
-    ArduinoService.removeListener(this.sceneName);
-  }
-
   moveToNextScene() {
-    console.log('SceneEnd: ' + this.sceneName);
+    console.log(`SceneEnd: ${this.sceneName}`);
     const nextScene = scenesService.getNextSceneByName(this.sceneName);
-    console.log('nextScene: ' + nextScene.sceneName);
+    console.log(`nextScene: ${nextScene.sceneName}`);
     this.manager.setState(nextScene);
     this.manager.execute();
   }
@@ -53,10 +40,11 @@ export default abstract class State {
     response.status(200).json({ msg: 'OK' });
   }
 
+  handleArduinoMessage(data: string) {
+    console.log(`Arduino message recive: ${data}`);
+  }
+
   abstract execute: (manager: StateManager) => void;
 
-  destroy(): void {
-    this.removeRestListener();
-    this.removeSerialListener();
-  }
+  destroy(): void {}
 }

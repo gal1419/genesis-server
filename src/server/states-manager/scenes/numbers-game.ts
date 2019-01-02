@@ -8,11 +8,17 @@ class NumbersGame extends State {
 
   timer: NodeJS.Timeout;
 
+  isArduinoEventReceived: boolean = false;
+
   readonly sceneName = 'NumbersGame';
+
+  // send NumbersGameTimer to primary
+  // send NumbersGame to Third
 
   execute = (manager: StateManager): void => {
     this.manager = manager;
 
+    this.loadUnityScene(false, 'NumbersGameTimer');
     const clue = scenesService.getSceneClue(this.sceneName);
     this.timer = setTimeout(() => {
       super.loadUnityScene(false, clue);

@@ -4,7 +4,6 @@ import InitialScene from '../scenes/regestration';
 
 export class StateManager {
   private static instance: StateManager;
-
   private _currentState!: State;
 
   private constructor() {}
@@ -29,6 +28,10 @@ export class StateManager {
 
   public handleRestRequest(request, response): void {
     this._currentState.handleRestRequest(request, response);
+  }
+
+  public handleArduinoMessage(message: string) {
+    this._currentState.handleArduinoMessage(message);
   }
 }
 

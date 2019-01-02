@@ -4,14 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-var unity_rest_service_1 = __importDefault(require("../../services/unity-rest-service"));
 var state_manager_1 = __importDefault(require("../../states-manager/services/state-manager"));
 var scenes_service_1 = __importDefault(require("../../states-manager/services/scenes-service"));
 var commands_service_1 = __importDefault(require("../../services/commands-service"));
 var apiRouter = express_1.default.Router();
+var stateManager = state_manager_1.default.getInstance();
 var loadScene = function (req, res, next) {
     var sceneName = req.body.sceneName;
-    var stateManager = state_manager_1.default.getInstance();
     var scene = scenes_service_1.default.getSceneByName(sceneName);
     if (!scene) {
         res.status(404).json({ msg: 'Scene not found' });
@@ -50,7 +49,7 @@ var loadSceneGet = function (req, res, next) {
 apiRouter.post('/load-scene', loadScene);
 apiRouter.get('/load-scene/:scene_name', loadSceneGet);
 apiRouter.post('/unity', function (req, res) {
-    unity_rest_service_1.default.handleIncomingMessage(req, res);
+    stateManager.handleRestRequest(req, res);
 });
 apiRouter.get('/commands/:command/:user_uniqueness', function (req, res) {
     commands_service_1.default.runCommand(req, res);

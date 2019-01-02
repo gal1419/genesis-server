@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import regestration from '../scenes/regestration';
 import waitToBegin from '../scenes/wait-to-begin';
-import startGame from '../scenes/start-game';
+import startGame from '../scenes/genesis-greeting';
 import State from '../state';
 import defensiveMechanismActivated from '../scenes/defensive-mechanism-activated';
 import buttonsGame from '../scenes/buttons-game';
@@ -11,6 +11,7 @@ import numbersGame from '../scenes/numbers-game';
 import switchesGame from '../scenes/switches-game';
 import chipGame from '../scenes/chip-game';
 import timerWithGenesis from '../scenes/timer-with-genesis';
+import genesisGreeting from '../scenes/genesis-greeting';
 
 interface sceneOrder {
   name: string;
@@ -30,7 +31,7 @@ class ScenesService {
     },
     {
       name: 'GenesisGreeting',
-      value: startGame
+      value: genesisGreeting
     },
     {
       name: 'DefensiveMechanismActivated',
@@ -47,7 +48,8 @@ class ScenesService {
     },
     {
       name: 'MazeGame',
-      value: mazeGame
+      value: mazeGame,
+      clue: 'MazeGameClue'
     },
     {
       name: 'NumbersGame',
@@ -57,12 +59,12 @@ class ScenesService {
     {
       name: 'SwitchesGame',
       value: switchesGame,
-      clue: 'SwitchesGameClue'
-    },    
+      clue: 'ChipGameClue'
+    },
     {
       name: 'ChipGame',
-      value: chipGame,
-    },
+      value: chipGame
+    }
   ];
 
   constructor() {}

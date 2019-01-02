@@ -8,12 +8,12 @@ class ChipGame extends State {
 
   timer: NodeJS.Timeout;
 
+  isArduinoEventReceived: boolean = true;
+
   readonly sceneName = 'ChipGame';
 
   execute = (manager: StateManager): void => {
     this.manager = manager;
-    super.setSerialPortListener(this.arduinoListener);
-
     const clue = scenesService.getSceneClue(this.sceneName);
     this.timer = setTimeout(() => {
       super.loadUnityScene(false, clue);
@@ -21,7 +21,8 @@ class ChipGame extends State {
   };
 
   arduinoListener = (data) => {
-    if (data === ArduinoEvents.FrameChipRemoved) {
+    if (data === ArduinoEvents.FrameChipRemoved && !this.isArduinoEventReceived) {
+      this.isArduinoEventReceived = true;
       clearTimeout(this.timer);
       super.loadUnityScene(false, 'GenesisAfterRemovingChip');
     }

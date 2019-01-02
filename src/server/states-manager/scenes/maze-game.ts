@@ -8,24 +8,26 @@ class MazeGame extends State {
 
   timer: NodeJS.Timeout;
 
+  isArduinoEventReceived: boolean = false;
+
   readonly sceneName = 'MazeGame';
 
   execute = (manager: StateManager): void => {
     this.manager = manager;
-    super.setSerialPortListener(this.arduinoListener);
-
+    super.loadUnityScene(false);
     const clue = scenesService.getSceneClue(this.sceneName);
     this.timer = setTimeout(() => {
       super.loadUnityScene(false, clue);
     }, 1000 * 60 * 3);
   };
 
-  arduinoListener = (data) => {
-    if (data === ArduinoEvents.GlassesDrawerOpened) {
+  handleArduinoMessage(data: string) {
+    if (data === ArduinoEvents.GlassesDrawerOpened && !this.isArduinoEventReceived) {
+      this.isArduinoEventReceived = true;
       clearTimeout(this.timer);
       super.loadUnityScene(false, 'GenesisAfterMazeDrawerOpened');
     }
-  };
+  }
 }
 
 export default new MazeGame();

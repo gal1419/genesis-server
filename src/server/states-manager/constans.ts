@@ -12,4 +12,6 @@ export enum ArduinoEvents {
   CoreDrawerOpened = 'CoreDrawerOpened',
   FrameChipRemoved = 'FrameChipRemoved',
   VRDrawerOpened = 'VRDrawerOpened',
+  RED = 'r',
+  BLUE = 'b'
 }

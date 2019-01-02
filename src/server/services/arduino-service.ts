@@ -1,15 +1,16 @@
 import SerialPort from 'serialport';
 import Readline from '@serialport/parser-readline';
 import _ from 'lodash';
+import StateManager from '../states-manager/services/state-manager';
 
 export type ArduinoListenerType = (data: string) => any;
 
 class ArduinoService {
   private serialInstance;
 
-  private parser;
+  private stateManager = StateManager.getInstance();
 
-  private listenersMap: Map<string, ArduinoListenerType> = new Map();
+  private parser;
 
   initialize() {
     if (this.serialInstance) {
@@ -28,9 +29,7 @@ class ArduinoService {
 
     this.parser.on('data', (data) => {
       console.log(`Data: ${data}`);
-      this.listenersMap.forEach((value) => {
-        value(data);
-      });
+      this.stateManager.handleArduinoMessage(data);
     });
 
     this.serialInstance.on('error', (err) => {
@@ -43,16 +42,8 @@ class ArduinoService {
       if (err) {
         return console.log('Error on write: ', err.message);
       }
-      console.log('message written');
+      console.log(`Arduino message written: ${message}`);
     });
-  }
-
-  addListener(listenerId: string, listener: ArduinoListenerType) {
-    this.listenersMap.set(listenerId, listener);
-  }
-
-  removeListener(listenerId: string) {
-    this.listenersMap.delete(listenerId);
   }
 }
 
