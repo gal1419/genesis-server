@@ -1,6 +1,9 @@
 
+import StateManager from '../states-manager/services/state-manager';
+
 class CommandsService {
   private commandsInstance;
+  private stateManager = StateManager.getInstance();
 
   initialize() {
     if (this.commandsInstance) {
@@ -13,12 +16,19 @@ class CommandsService {
   runCommand(req, res) {
     const command = req.params.command;
     const userUniqueness = req.params.user_uniqueness;
-    this.commandsInstance[command] = {userUniqueness: userUniqueness};
+    const result = this.stateManager.handleCommand(command);
+    if(result) {
+      this.commandsInstance[command] = {userUniqueness: userUniqueness};
+    }
     res.json({ commands: this.commandsInstance })
   }
 
   getCommands(req, res) {
     res.json({ commands: this.commandsInstance })
+  }
+
+  resetCommandsInstance() {
+    this.commandsInstance = {};
   }
 }
 

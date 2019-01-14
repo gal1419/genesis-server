@@ -17,7 +17,7 @@ export default abstract class State {
     UnityRestService.sendPrimaryUnityMessage('load-scene', message);
 
     if (sendToSecondaryUnity) {
-      UnityRestService.sendSecondryUnityMessage(Constans.LOAD_SCENE, message);
+      UnityRestService.sendSecondryUnityMessage('load-scene', message);
     }
   }
 
@@ -42,6 +42,11 @@ export default abstract class State {
 
   handleArduinoMessage(data: string) {
     console.log(`Arduino message recive: ${data}`);
+  }
+
+  handleCommand(data: string) {
+    console.log(`Command recive: ${data}`);
+    return false;
   }
 
   abstract execute: (manager: StateManager) => void;

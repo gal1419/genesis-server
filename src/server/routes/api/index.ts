@@ -4,10 +4,12 @@ import UnityRestService from '../../services/unity-rest-service';
 import StateManager from '../../states-manager/services/state-manager';
 import scenesService from '../../states-manager/services/scenes-service';
 import commandService from '../../services/commands-service';
+import waitToBegin from '../../states-manager/scenes/wait-to-begin';
 
 const apiRouter = express.Router();
 
 const stateManager = StateManager.getInstance();
+stateManager.setState(waitToBegin)
 const loadScene = (req, res, next) => {
   const { sceneName } = req.body;
   const scene = scenesService.getSceneByName(sceneName);

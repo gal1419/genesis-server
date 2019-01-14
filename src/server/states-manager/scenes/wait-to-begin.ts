@@ -5,7 +5,8 @@ class WaitToBegin extends State {
   readonly sceneName = 'WaitToBegin';
 
   execute = (manager: StateManager): void => {
-    super.loadUnityScene(false);
+    this.manager = manager;
+    // super.loadUnityScene(false);
   };
 }
 

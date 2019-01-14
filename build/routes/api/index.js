@@ -7,8 +7,10 @@ var express_1 = __importDefault(require("express"));
 var state_manager_1 = __importDefault(require("../../states-manager/services/state-manager"));
 var scenes_service_1 = __importDefault(require("../../states-manager/services/scenes-service"));
 var commands_service_1 = __importDefault(require("../../services/commands-service"));
+var wait_to_begin_1 = __importDefault(require("../../states-manager/scenes/wait-to-begin"));
 var apiRouter = express_1.default.Router();
 var stateManager = state_manager_1.default.getInstance();
+stateManager.setState(wait_to_begin_1.default);
 var loadScene = function (req, res, next) {
     var sceneName = req.body.sceneName;
     var scene = scenes_service_1.default.getSceneByName(sceneName);

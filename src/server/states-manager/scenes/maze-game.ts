@@ -28,6 +28,9 @@ class MazeGame extends State {
       super.loadUnityScene(false, 'GenesisAfterMazeDrawerOpened');
     }
   }
+  destroy = (): void => {
+    clearTimeout(this.timer);
+  };
 }
 
 export default new MazeGame();

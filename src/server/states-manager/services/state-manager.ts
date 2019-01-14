@@ -33,6 +33,10 @@ export class StateManager {
   public handleArduinoMessage(message: string) {
     this._currentState.handleArduinoMessage(message);
   }
+
+  public handleCommand(message: string): boolean {
+    return this._currentState.handleCommand(message);
+  }
 }
 
 export default StateManager;

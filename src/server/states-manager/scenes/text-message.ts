@@ -2,34 +2,40 @@ import State from '../state';
 import { StateManager } from '../services/state-manager';
 import scenesService from '../services/scenes-service';
 import { ArduinoEvents } from '../constans';
+import UnityRestService from '../../services/unity-rest-service';
+import { Constans } from '../constans';
 
-class ButtonsGame extends State {
+class TextMessage extends State {
   manager: StateManager;
 
   timer: NodeJS.Timeout;
 
-  isArduinoEventReceived: boolean = false;
+  commandsMap = new Map();
 
-  readonly sceneName = 'ButtonsGame';
+  isArduinoEventReceived: boolean = true;
+
+  readonly sceneName = 'TextMessage';
 
   execute = (manager: StateManager): void => {
     this.manager = manager;
     const clue = scenesService.getSceneClue(this.sceneName);
     this.timer = setTimeout(() => {
       super.loadUnityScene(false, clue);
-    }, 1000 * 60 * 2);
+    }, 1000 * 30);
+    UnityRestService.sendSecondryUnityMessage('load-scene', Constans.LOAD_SCENE + ':Timer');
+    this.loadUnityScene(false, 'TextMessage');
   };
 
   handleArduinoMessage = (data: string) => {
-    if (data === ArduinoEvents.SnakeDrawerOpened && !this.isArduinoEventReceived) {
-      this.isArduinoEventReceived = true;
+    if (data === ArduinoEvents.VRDrawerOpened) {
       clearTimeout(this.timer);
-      super.loadUnityScene(false, 'GenesisAfterSnakeDrawerOpened');
+      this.moveToNextScene();
     }
   };
   destroy = (): void => {
     clearTimeout(this.timer);
   };
+
 }
 
-export default new ButtonsGame();
+export default new TextMessage();

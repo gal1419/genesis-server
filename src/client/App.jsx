@@ -6,6 +6,8 @@ import './app.css';
 import MainArea from './components/MainArea/MainArea';
 import Terminal from './components/Terminal/Terminal';
 import CoreTerminal from './components/Terminal/CoreTerminal';
+import KernelTerminal from './components/Terminal/KernelTerminal';
+import FirewallTerminal from './components/Terminal/FirewallTerminal';
 import AdminArea from './components/AdminArea/AdminArea';
 import Login from './components/Login/Login';
 import AuthService from './services/AuthService';
@@ -29,6 +31,8 @@ export default class App extends Component {
           <Route exact path="/" component={MainArea} />
           {/* <Route exact path="/core" component={Terminal} /> */}
           <Route exact path="/core" component={CoreTerminal} />
+          <Route exact path="/kernel" component={KernelTerminal} />
+          <Route exact path="/firewall" component={FirewallTerminal} />
           <Route path="/login" component={Login} />
           <PrivateRoute exact path="/admin" component={AdminArea} />
         </div>

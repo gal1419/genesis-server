@@ -10,8 +10,17 @@ import mazeGame from '../scenes/maze-game';
 import numbersGame from '../scenes/numbers-game';
 import switchesGame from '../scenes/switches-game';
 import chipGame from '../scenes/chip-game';
+import wifiGame from '../scenes/wifi-game';
+import textMessage from '../scenes/text-message';
+import scientistEncouragement from '../scenes/scientist-encouragement';
+import genesisMalfunction from '../scenes/genesis-malfunction';
+import colorsGame from '../scenes/colors-game';
 import timerWithGenesis from '../scenes/timer-with-genesis';
 import genesisGreeting from '../scenes/genesis-greeting';
+import genesisBeforeVR from '../scenes/genesis-before-vr';
+import scientistBeforeVR from '../scenes/scientist-before-vr';
+import vrGame from '../scenes/vr-game';
+import endGame from '../scenes/end-game';
 
 interface sceneOrder {
   name: string;
@@ -21,10 +30,10 @@ interface sceneOrder {
 
 class ScenesService {
   order: sceneOrder[] = [
-    {
-      name: 'Regestration',
-      value: regestration
-    },
+    // {
+    //   name: 'Regestration',
+    //   value: regestration
+    // },
     {
       name: 'WaitToBegin',
       value: waitToBegin
@@ -61,10 +70,47 @@ class ScenesService {
       value: switchesGame,
       clue: 'ChipGameClue'
     },
+    // {
+    //   name: 'ChipGame',
+    //   value: chipGame
+    // },
     {
-      name: 'ChipGame',
-      value: chipGame
-    }
+      name: 'WifiGame',
+      value: wifiGame
+    },
+    {
+      name: 'GenesisMalfunction',
+      value: genesisMalfunction
+    },
+    {
+      name: 'ScientistEncouragement',
+      value: scientistEncouragement
+    },
+    {
+      name: 'ColorsGame',
+      value: colorsGame
+    },
+    {
+      name: 'TextMessage',
+      value: textMessage,
+      clue: 'TextMessageClue'
+    },
+    {
+      name: 'GenesisBeforeVR',
+      value: genesisBeforeVR,
+    },
+    {
+      name: 'ScientistBeforeVR',
+      value: scientistBeforeVR,
+    },
+    {
+      name: 'VRGame',
+      value: vrGame,
+    },
+    {
+      name: 'EndGame',
+      value: endGame,
+    },
   ];
 
   constructor() {}

@@ -6,7 +6,8 @@ import { ArduinoEvents } from '../constans';
 class SwitchesGame extends State {
   manager: StateManager;
 
-  timer: NodeJS.Timeout;
+  timer1: NodeJS.Timeout;
+  timer2: NodeJS.Timeout;
 
   isArduinoEventReceived: boolean = false;
 
@@ -15,22 +16,29 @@ class SwitchesGame extends State {
   execute = (manager: StateManager): void => {
     this.manager = manager;
     const clue = scenesService.getSceneClue(this.sceneName);
-    this.timer = setTimeout(() => {
+    this.timer1 = setTimeout(() => {
       super.loadUnityScene(false, clue);
     }, 1000 * 60 * 2);
 
-    this.timer = setTimeout(() => {
+    this.timer2 = setTimeout(() => {
       super.loadUnityScene(false, 'ChipGameClue');
     }, 1000 * 60 * 4);
   };
 
   handleArduinoMessage = (data: string) => {
     if (data === ArduinoEvents.CoreDrawerOpened) {
-      clearTimeout(this.timer);
-      super.loadUnityScene(false, 'GenesisAfterCoreDrawerOpened');
+      clearTimeout(this.timer1);
+      // super.loadUnityScene(false, 'GenesisAfterCoreDrawerOpened');
     } else if (data === ArduinoEvents.FrameChipRemoved) {
-      super.loadUnityScene(false, 'GenesisAfterRemovingChip');
+      clearTimeout(this.timer1);
+      clearTimeout(this.timer2);
+      this.moveToNextScene();
+      // super.loadUnityScene(false, 'GenesisAfterRemovingChip');
     }
+  };
+  destroy = (): void => {
+    clearTimeout(this.timer1);
+    clearTimeout(this.timer2);
   };
 }
 

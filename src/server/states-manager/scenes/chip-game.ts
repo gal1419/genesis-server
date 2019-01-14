@@ -27,6 +27,9 @@ class ChipGame extends State {
       super.loadUnityScene(false, 'GenesisAfterRemovingChip');
     }
   };
+  destroy = (): void => {
+    clearTimeout(this.timer);
+  };
 }
 
 export default new ChipGame();
