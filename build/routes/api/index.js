@@ -7,10 +7,11 @@ var express_1 = __importDefault(require("express"));
 var state_manager_1 = __importDefault(require("../../states-manager/services/state-manager"));
 var scenes_service_1 = __importDefault(require("../../states-manager/services/scenes-service"));
 var commands_service_1 = __importDefault(require("../../services/commands-service"));
-var wait_to_begin_1 = __importDefault(require("../../states-manager/scenes/wait-to-begin"));
 var apiRouter = express_1.default.Router();
 var stateManager = state_manager_1.default.getInstance();
-stateManager.setState(wait_to_begin_1.default);
+var waitToBegin = scenes_service_1.default.getSceneByName('WaitToBegin');
+stateManager.setState(waitToBegin);
+stateManager.execute();
 var loadScene = function (req, res, next) {
     var sceneName = req.body.sceneName;
     var scene = scenes_service_1.default.getSceneByName(sceneName);
@@ -52,6 +53,12 @@ apiRouter.post('/load-scene', loadScene);
 apiRouter.get('/load-scene/:scene_name', loadSceneGet);
 apiRouter.post('/unity', function (req, res) {
     stateManager.handleRestRequest(req, res);
+});
+apiRouter.get('/end-scene', function (req, res) {
+    stateManager.endScene(req, res);
+});
+apiRouter.get('/current-state', function (req, res) {
+    stateManager.getCurrentStateName(req, res);
 });
 apiRouter.get('/commands/:command/:user_uniqueness', function (req, res) {
     commands_service_1.default.runCommand(req, res);

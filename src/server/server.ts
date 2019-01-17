@@ -35,15 +35,15 @@ dotenv.config();
 /**
  * Connect to MongoDB.
  */
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
-mongoose.set('useNewUrlParser', true);
-mongoose.connect(process.env.MONGODB_URI);
-mongoose.connection.on('error', (err: any) => {
-  console.error(err);
-  console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
-  process.exit();
-});
+// mongoose.set('useFindAndModify', false);
+// mongoose.set('useCreateIndex', true);
+// mongoose.set('useNewUrlParser', true);
+// mongoose.connect(process.env.MONGODB_URI);
+// mongoose.connection.on('error', (err: any) => {
+//   console.error(err);
+//   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
+//   process.exit();
+// });
 
 /**
  * Create server.
@@ -78,10 +78,10 @@ app.use(
     saveUninitialized: true,
     secret: process.env.SESSION_SECRET,
     cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 * 2 },
-    store: new MongoStore({
-      url: process.env.MONGODB_URI,
-      autoReconnect: true
-    })
+    // store: new MongoStore({
+    //   url: process.env.MONGODB_URI,
+    //   autoReconnect: true
+    // })
   })
 );
 

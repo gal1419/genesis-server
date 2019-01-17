@@ -75,6 +75,6 @@ userSchema.methods.gravatar = function gravatar(size) {
         .digest('hex');
     return "https://gravatar.com/avatar/" + md5 + "?s=" + gSize + "&d=retro";
 };
-var User = mongoose_1.default.model('User', userSchema);
-exports.default = User;
+// const User = mongoose.model('User', userSchema);
+// export default User;
 //# sourceMappingURL=User.js.map

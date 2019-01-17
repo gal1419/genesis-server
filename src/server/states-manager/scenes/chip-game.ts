@@ -14,6 +14,7 @@ class ChipGame extends State {
 
   execute = (manager: StateManager): void => {
     this.manager = manager;
+    this.isArduinoEventReceived = false;
     const clue = scenesService.getSceneClue(this.sceneName);
     this.timer = setTimeout(() => {
       super.loadUnityScene(false, clue);

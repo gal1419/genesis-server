@@ -14,6 +14,7 @@ class MazeGame extends State {
 
   execute = (manager: StateManager): void => {
     this.manager = manager;
+    this.isArduinoEventReceived = false;
     super.loadUnityScene(false);
     const clue = scenesService.getSceneClue(this.sceneName);
     this.timer = setTimeout(() => {

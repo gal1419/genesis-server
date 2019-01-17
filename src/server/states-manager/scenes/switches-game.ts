@@ -1,6 +1,7 @@
 import State from '../state';
 import { StateManager } from '../services/state-manager';
 import scenesService from '../services/scenes-service';
+import arduinoService from '../../services/arduino-service';
 import { ArduinoEvents } from '../constans';
 
 class SwitchesGame extends State {
@@ -14,7 +15,9 @@ class SwitchesGame extends State {
   readonly sceneName = 'SwitchesGame';
 
   execute = (manager: StateManager): void => {
+    console.log('starting SwitchesGame');
     this.manager = manager;
+    arduinoService.sendMessage(ArduinoEvents.BLUE);
     const clue = scenesService.getSceneClue(this.sceneName);
     this.timer1 = setTimeout(() => {
       super.loadUnityScene(false, clue);
@@ -27,9 +30,12 @@ class SwitchesGame extends State {
 
   handleArduinoMessage = (data: string) => {
     if (data === ArduinoEvents.CoreDrawerOpened) {
+      console.log('got CoreDrawerOpened');
       clearTimeout(this.timer1);
       // super.loadUnityScene(false, 'GenesisAfterCoreDrawerOpened');
     } else if (data === ArduinoEvents.FrameChipRemoved) {
+      console.log('got FrameChipRemoved');
+      arduinoService.sendMessage(ArduinoEvents.RED);
       clearTimeout(this.timer1);
       clearTimeout(this.timer2);
       this.moveToNextScene();

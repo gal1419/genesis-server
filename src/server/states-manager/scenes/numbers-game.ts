@@ -9,8 +9,6 @@ class NumbersGame extends State {
 
   timer: NodeJS.Timeout;
 
-  isArduinoEventReceived: boolean = false;
-
   readonly sceneName = 'NumbersGame';
 
   // send NumbersGameTimer to primary

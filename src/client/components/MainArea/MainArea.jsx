@@ -43,7 +43,7 @@ class MainArea extends Component {
   render() {
     return (
       <div>
-        <ReactTerminal emulatorState={this.emulatorState} />
+        
       </div>
     );
   }

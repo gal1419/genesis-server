@@ -33,6 +33,10 @@ export default abstract class State {
     this.manager.execute();
   }
 
+  getCurrentStateName() {
+    return this.sceneName;
+  }
+
   handleRestRequest(request, response) {
     if (request.body && request.body.SceneEnd === '') {
       this.moveToNextScene();

@@ -14,7 +14,6 @@ class TimerWithGenesis extends State {
     this.manager = manager;
     super.loadUnityScene(false);
     UnityRestService.sendSecondryUnityMessage('load-scene', Constans.LOAD_SCENE + ':Timer');
-    arduinoService.sendMessage(ArduinoEvents.RED);
   };
 }
 

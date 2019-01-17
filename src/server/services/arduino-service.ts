@@ -21,7 +21,11 @@ class ArduinoService {
       throw new Error('SERIAL_PORT was not defined');
     }
 
-    this.serialInstance = new SerialPort(process.env.SERIAL_PORT, {
+    // this.serialInstance = new SerialPort(process.env.SERIAL_PORT, {
+    //   baudRate: 9600
+    // });
+
+    this.serialInstance = new SerialPort('COM3', {
       baudRate: 9600
     });
 

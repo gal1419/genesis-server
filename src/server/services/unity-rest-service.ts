@@ -28,6 +28,16 @@ class UnityRestService {
     return this.sendMessage(url, body);
   }
 
+  sendKinectMessage(event: string) {
+    const url = `http://${process.env.PRIMARY_UNITY_IP}:${
+      process.env.KINECT_IP_PORT
+    }/Temporary_Listen_Addresses/${event}/`;
+    console.log('sending to kinect: ' + url);
+    return request.get({
+      url,
+    });
+  }
+
   sendMessage(url: string, body: string) {
     return request.post({
       url,

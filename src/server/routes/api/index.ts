@@ -4,12 +4,13 @@ import UnityRestService from '../../services/unity-rest-service';
 import StateManager from '../../states-manager/services/state-manager';
 import scenesService from '../../states-manager/services/scenes-service';
 import commandService from '../../services/commands-service';
-import waitToBegin from '../../states-manager/scenes/wait-to-begin';
 
 const apiRouter = express.Router();
 
 const stateManager = StateManager.getInstance();
-stateManager.setState(waitToBegin)
+const waitToBegin = scenesService.getSceneByName('WaitToBegin');
+stateManager.setState(waitToBegin);
+stateManager.execute();
 const loadScene = (req, res, next) => {
   const { sceneName } = req.body;
   const scene = scenesService.getSceneByName(sceneName);
@@ -60,6 +61,20 @@ apiRouter.get('/load-scene/:scene_name', loadSceneGet);
 
 apiRouter.post('/unity', (req, res) => {
   stateManager.handleRestRequest(req, res);
+});
+
+apiRouter.get('/end-scene', (req, res) => {
+  stateManager.endScene(req, res);
+});
+
+apiRouter.get('/current-state', (req, res) => {
+  stateManager.getCurrentStateName(req, res);
+});
+
+apiRouter.get('/run-arduino-event/:event', (req, res) => {
+  const event = req.params.command;
+  stateManager.handleArduinoMessage(event);
+  // res.status(200).json({ msg: 'OK' });
 });
 
 apiRouter.get('/commands/:command/:user_uniqueness', (req, res) => {

@@ -19,6 +19,7 @@ export class StateManager {
     if (this._currentState) {
       this._currentState.destroy();
     }
+    console.log(`setting to state: ${state.getSceneName()}`);
     this._currentState = state;
   }
 
@@ -28,6 +29,15 @@ export class StateManager {
 
   public handleRestRequest(request, response): void {
     this._currentState.handleRestRequest(request, response);
+  }
+
+  public endScene(request, response): void {
+    this._currentState.moveToNextScene();
+    response.status(200).json({ msg: 'OK' });
+  }
+
+  public getCurrentStateName(request, response): void {
+    response.status(200).json({ currentStateName: this._currentState.getCurrentStateName() });
   }
 
   public handleArduinoMessage(message: string) {

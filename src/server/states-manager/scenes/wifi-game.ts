@@ -16,6 +16,16 @@ class WifiGame extends State {
 
   constructor() {
     super();
+  }
+
+  execute = (manager: StateManager): void => {
+    this.manager = manager;
+    this.resetCommandsMap();
+    commandService.resetCommandsInstance();
+    this.loadUnityScene(false, 'WifiGame');
+  };
+
+  resetCommandsMap = () :void => {
     this.commandsMap.set('shutdown_core', {
       didRun: false,
       valueToUnity: 0
@@ -28,14 +38,7 @@ class WifiGame extends State {
       didRun: false,
       valueToUnity: 2
     });
-  }
-
-  execute = (manager: StateManager): void => {
-    this.manager = manager;
-    commandService.resetCommandsInstance();
-    this.loadUnityScene(false, 'WifiGame');
   };
-
   handleCommand(data: string) {
     console.log(`Command recive: ${data}`);
     let commandObj = this.commandsMap.get(data);

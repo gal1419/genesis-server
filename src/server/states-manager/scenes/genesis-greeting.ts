@@ -15,6 +15,7 @@ class GenesisGreeting extends State {
     UnityRestService.sendTheardUnityMessage('load-scene', Constans.LOAD_SCENE + ':ConsoleBlincking');
     super.loadUnityScene(true);
     arduinoService.sendMessage(ArduinoEvents.BLUE);
+    UnityRestService.sendKinectMessage('start');
   };
 }
 

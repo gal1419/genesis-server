@@ -22,7 +22,6 @@ var lusca_1 = __importDefault(require("lusca"));
 var dotenv_1 = __importDefault(require("dotenv"));
 var express_flash_1 = __importDefault(require("express-flash"));
 var path_1 = __importDefault(require("path"));
-var mongoose_1 = __importDefault(require("mongoose"));
 var passport_1 = __importDefault(require("passport"));
 var express_validator_1 = __importDefault(require("express-validator"));
 var express_status_monitor_1 = __importDefault(require("express-status-monitor"));
@@ -43,15 +42,15 @@ dotenv_1.default.config();
 /**
  * Connect to MongoDB.
  */
-mongoose_1.default.set('useFindAndModify', false);
-mongoose_1.default.set('useCreateIndex', true);
-mongoose_1.default.set('useNewUrlParser', true);
-mongoose_1.default.connect(process.env.MONGODB_URI);
-mongoose_1.default.connection.on('error', function (err) {
-    console.error(err);
-    console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk_1.default.red('✗'));
-    process.exit();
-});
+// mongoose.set('useFindAndModify', false);
+// mongoose.set('useCreateIndex', true);
+// mongoose.set('useNewUrlParser', true);
+// mongoose.connect(process.env.MONGODB_URI);
+// mongoose.connection.on('error', (err: any) => {
+//   console.error(err);
+//   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
+//   process.exit();
+// });
 /**
  * Create server.
  */
@@ -79,10 +78,6 @@ app.use(express_session_1.default({
     saveUninitialized: true,
     secret: process.env.SESSION_SECRET,
     cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 * 2 },
-    store: new MongoStore({
-        url: process.env.MONGODB_URI,
-        autoReconnect: true
-    })
 }));
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
