@@ -33,7 +33,7 @@ export default class App extends Component {
           <Route exact path="/core" component={CoreTerminal} />
           <Route exact path="/kernel" component={KernelTerminal} />
           <Route exact path="/firewall" component={FirewallTerminal} />
-          <Route path="/login" component={Login} />
+          {/* <Route path="/login" component={Login} /> */}
           <Route exact path="/admin/admin" component={AdminArea} />
         </div>
       </Router>

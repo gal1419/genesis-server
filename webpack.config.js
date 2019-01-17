@@ -38,13 +38,13 @@ module.exports = {
     open: true,
     proxy: {
       '/api/**': {
-        target: 'http://localhost:5000',
+        target: 'http://localhost:80',
         // pathRewrite: { '^/api': '' },
         secure: false,
         logLevel: 'debug'
       },
       '/user/**': {
-        target: 'http://localhost:5000',
+        target: 'http://localhost:80',
         // pathRewrite: { '^/auth': '' },
         secure: false,
         logLevel: 'debug'

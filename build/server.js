@@ -98,7 +98,7 @@ app.use(function (req, res, next) {
 app.use('/api', api_1.default);
 app.use('/user', user_1.default);
 app.get('*', function (request, response) {
-    response.sendFile(path_1.default.resolve(__dirname, '../../dist', 'index.html'));
+    response.sendFile(path_1.default.resolve(__dirname, '../dist', 'index.html'));
 });
 /**
  * Error Handler.

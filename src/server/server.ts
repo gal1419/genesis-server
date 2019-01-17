@@ -107,7 +107,7 @@ app.use('/api', apiRouts);
 app.use('/user', authRouts);
 
 app.get('*', (request: any, response: any) => {
-  response.sendFile(path.resolve(__dirname, '../../dist', 'index.html'));
+  response.sendFile(path.resolve(__dirname, '../dist', 'index.html'));
 });
 
 /**

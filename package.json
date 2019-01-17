@@ -1,11 +1,11 @@
 {
-  "name": "react-full-stack",
+  "name": "genesis-box",
   "version": "1.0.0",
-  "description": "Boilerplate to build a full stack web application using React, Node.js, Express and Webpack.",
+  "description": "Frontend & Backend for the Genesis box",
   "scripts": {
     "build": "webpack --mode production",
     "start": "npm run build && npm run server",
-    "client": "webpack-dev-server --mode development --devtool inline-source-map --hot --host 0.0.0.0 --port 3000 --public localhost:3000",
+    "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "tsc && node build/server.js",
     "server:dev": "nodemon",
     "dev": "concurrently \"npm run server:dev\" \"npm run client\"",
