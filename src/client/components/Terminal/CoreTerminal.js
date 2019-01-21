@@ -149,12 +149,13 @@ class CoreTerminal extends Component {
   render() {
     return (
       <div>
-        <div className="terminal-alert-image-container"><img src="./public/terminal-alert-image.png"></img></div>
+        <div className="terminal-alert-image-container"><img src="./public/terminal-alert.png"></img></div>
         <ReactTerminal
           outputRenderers={{
             ...ReactOutputRenderers,
             [PAPER_TYPE]: PaperOutput
           }}
+          promptSymbol='C:\Users\genesis>‍'
           emulatorState={this.emulatorState}
         />
       </div>

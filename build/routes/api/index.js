@@ -60,10 +60,10 @@ apiRouter.get('/end-scene', function (req, res) {
 apiRouter.get('/current-state', function (req, res) {
     stateManager.getCurrentStateName(req, res);
 });
-apiRouter.get('/run-arduino-event/:event', function (req, res) {
-    var event = req.params.command;
+apiRouter.get('/arduino/:event', function (req, res) {
+    var event = req.params.event;
     stateManager.handleArduinoMessage(event);
-    // res.status(200).json({ msg: 'OK' });
+    res.status(200).json({ msg: 'OK' });
 });
 apiRouter.get('/commands/:command/:user_uniqueness', function (req, res) {
     commands_service_1.default.runCommand(req, res);

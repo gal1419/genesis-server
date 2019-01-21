@@ -4,16 +4,14 @@ import axios from 'axios';
 class AdminArea extends Component {
   constructor(props) {
     super(props);
-    this.state = {currentStateName: 'oded'};
+    this.state = {currentStateName: 'waiting for server response....'};
   }
   componentDidMount(scene) {
     var intervalId = setInterval(()=> this.timer(), 5000);
-    // store intervalId in the state so it can be accessed later:
     this.setState({intervalId: intervalId});
   }
 
   componentWillUnmount(scene) {
-    // use intervalId from the state to clear the interval
     clearInterval(this.state.intervalId);
   }
 
@@ -22,7 +20,6 @@ class AdminArea extends Component {
     .get(`/api/current-state/`)
     .then((data) => {
       console.log('current-state: ' + data.data.currentStateName)
-      // setState method is used to update the state
       this.setState({ currentStateName: data.data.currentStateName });
     })
     .catch((err) => {
@@ -33,9 +30,14 @@ class AdminArea extends Component {
   excuteScene(scene) {
     axios
     .get(`/api/load-scene/${scene}/`)
-    .then((data) => {
-      console.log('loaded: ' + scene);
-    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+
+  excuteArdiunoEvent(eventName) {
+    axios
+    .get(`/api/arduino/${eventName}/`)
     .catch((err) => {
       console.log(err);
     });
@@ -117,6 +119,21 @@ class AdminArea extends Component {
       <div>
         current state name: {this.state.currentStateName}
       </div>
+      <button onClick={(e) => this.excuteArdiunoEvent('SnakeDrawerOpened')}>
+        SnakeDrawerOpened
+      </button>
+      <button onClick={(e) => this.excuteArdiunoEvent('GlassesDrawerOpened')}>
+        GlassesDrawerOpened
+      </button>
+      <button onClick={(e) => this.excuteArdiunoEvent('CoreDrawerOpened')}>
+        CoreDrawerOpened
+      </button>
+      <button onClick={(e) => this.excuteArdiunoEvent('FrameChipRemoved')}>
+        FrameChipRemoved
+      </button>
+      <button onClick={(e) => this.excuteArdiunoEvent('VRDrawerOpened')}>
+        VRDrawerOpened
+      </button>
     </div>);
   }
 }

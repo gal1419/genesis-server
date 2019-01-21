@@ -2,7 +2,6 @@
 
 
 .bOtCtN.terminalContainer {
-  height: 100vh;
   padding: 0;
   line-height: 2.2em;
   font-size: 1.3rem;
@@ -41,6 +40,6 @@ img {
     to {left: 0%; width: 100%;}
 }
 
-.sc-EHOje.hcvAEY .sc-ifAKCX.cFlEyZ {
+/* .sc-EHOje.hcvAEY .sc-ifAKCX.cFlEyZ {
   display: none;
-}
+} */

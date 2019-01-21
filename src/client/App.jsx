@@ -11,6 +11,7 @@ import FirewallTerminal from './components/Terminal/FirewallTerminal';
 import AdminArea from './components/AdminArea/AdminArea';
 import Login from './components/Login/Login';
 import AuthService from './services/AuthService';
+import '../../public/images/terminal-alert.png';
 
 export default class App extends Component {
   componentDidMount() {}

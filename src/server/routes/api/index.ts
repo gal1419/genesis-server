@@ -71,10 +71,10 @@ apiRouter.get('/current-state', (req, res) => {
   stateManager.getCurrentStateName(req, res);
 });
 
-apiRouter.get('/run-arduino-event/:event', (req, res) => {
-  const event = req.params.command;
+apiRouter.get('/arduino/:event', (req, res) => {
+  const {event} = req.params;
   stateManager.handleArduinoMessage(event);
-  // res.status(200).json({ msg: 'OK' });
+  res.status(200).json({ msg: 'OK' });
 });
 
 apiRouter.get('/commands/:command/:user_uniqueness', (req, res) => {
