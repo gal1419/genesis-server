@@ -9,9 +9,6 @@ var scenes_service_1 = __importDefault(require("../../states-manager/services/sc
 var commands_service_1 = __importDefault(require("../../services/commands-service"));
 var apiRouter = express_1.default.Router();
 var stateManager = state_manager_1.default.getInstance();
-var waitToBegin = scenes_service_1.default.getSceneByName('WaitToBegin');
-stateManager.setState(waitToBegin);
-stateManager.execute();
 var loadScene = function (req, res, next) {
     var sceneName = req.body.sceneName;
     var scene = scenes_service_1.default.getSceneByName(sceneName);

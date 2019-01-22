@@ -12,9 +12,7 @@ class GenesisGreeting extends State {
 
   execute = (manager: StateManager): void => {
     this.manager = manager;
-    UnityRestService.sendTheardUnityMessage('load-scene', Constans.LOAD_SCENE + ':ConsoleBlincking');
     super.loadUnityScene(true);
-    arduinoService.sendMessage(ArduinoEvents.BLUE);
     UnityRestService.sendKinectMessage('start');
   };
 }

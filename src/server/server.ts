@@ -18,6 +18,8 @@ import sass from 'node-sass-middleware';
 import * as http from 'http';
 import arduinoService from './services/arduino-service';
 import commandsService from './services/commands-service';
+import StateManager from './states-manager/services/state-manager';
+import scenesService from './states-manager/services/scenes-service';
 
 /**
  * API keys and Passport configuration.
@@ -125,6 +127,14 @@ arduinoService.initialize();
 
 commandsService.initialize();
 
+
+/**
+ * Init State Manager
+ */
+const stateManager = StateManager.getInstance();
+const waitToBegin = scenesService.getSceneByName('WaitToBegin');
+stateManager.setState(waitToBegin);
+stateManager.execute();
 /**
  * Start server.
  */

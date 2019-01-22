@@ -29,6 +29,8 @@ var node_sass_middleware_1 = __importDefault(require("node-sass-middleware"));
 var http = __importStar(require("http"));
 var arduino_service_1 = __importDefault(require("./services/arduino-service"));
 var commands_service_1 = __importDefault(require("./services/commands-service"));
+var state_manager_1 = __importDefault(require("./states-manager/services/state-manager"));
+var scenes_service_1 = __importDefault(require("./states-manager/services/scenes-service"));
 /**
  * API keys and Passport configuration.
  */
@@ -112,6 +114,13 @@ if (process.env.NODE_ENV === 'development') {
  */
 arduino_service_1.default.initialize();
 commands_service_1.default.initialize();
+/**
+ * Init State Manager
+ */
+var stateManager = state_manager_1.default.getInstance();
+var waitToBegin = scenes_service_1.default.getSceneByName('WaitToBegin');
+stateManager.setState(waitToBegin);
+stateManager.execute();
 /**
  * Start server.
  */
