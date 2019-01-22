@@ -1,5 +1,6 @@
-  
-
+body {
+  margin: 0;
+}
 
 .bOtCtN.terminalContainer {
   padding: 0;
@@ -37,9 +38,75 @@ img {
   animation-fill-mode: forwards;
 }
 @keyframes loading {
-    to {left: 0%; width: 100%;}
+  to {
+    left: 0%;
+    width: 100%;
+  }
 }
 
-/* .sc-EHOje.hcvAEY .sc-ifAKCX.cFlEyZ {
-  display: none;
-} */
+.admin-button {
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  padding: 25px 80px;
+  display: inline-block;
+  margin: 15px 30px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  outline: none;
+  position: relative;
+  transition: all 0.3s;
+  border: 3px solid #fff;
+}
+
+.admin-button-scene {
+  background: #0e83cd;
+  color: white;
+}
+
+.admin-button-scene:hover {
+  background: white;
+  color: #0e83cd;
+}
+
+.admin-button-arduino-event {
+  background: #f06060;
+  color: white;
+}
+
+.admin-button-arduino-event:hover {
+  background: white;
+  color: #f06060;
+}
+
+.admin-button-volume-command {
+  background: #fcd04b;
+  color: white;
+}
+
+.admin-button-volume-command:hover {
+  background: white;
+  color: #fcd04b;
+}
+
+.scenes-area {
+  background: #0e83cd;
+}
+
+.arduino-events-area {
+  background: #f06060;
+}
+
+.volume-command-area {
+  background: #fcd04b;
+}
+
+.header-area {
+  height: 50px;
+  background: #ecf0f1;
+  padding-left: 10px;
+  padding-top: 5px;
+  font-size: 20px;
+  font-family: inherit;
+}

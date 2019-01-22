@@ -1,26 +1,21 @@
-import _ from 'lodash';
-import regestration from '../scenes/regestration';
-import waitToBegin from '../scenes/wait-to-begin';
-import startGame from '../scenes/genesis-greeting';
-import State from '../state';
-import defensiveMechanismActivated from '../scenes/defensive-mechanism-activated';
-import buttonsGame from '../scenes/buttons-game';
-import buttonsGameClue from '../scenes/buttons-game-clue';
-import mazeGame from '../scenes/maze-game';
-import numbersGame from '../scenes/numbers-game';
-import switchesGame from '../scenes/switches-game';
-import chipGame from '../scenes/chip-game';
-import wifiGame from '../scenes/wifi-game';
-import textMessage from '../scenes/text-message';
-import scientistEncouragement from '../scenes/scientist-encouragement';
-import genesisMalfunction from '../scenes/genesis-malfunction';
-import colorsGame from '../scenes/colors-game';
-import timerWithGenesis from '../scenes/timer-with-genesis';
-import genesisGreeting from '../scenes/genesis-greeting';
-import genesisBeforeVR from '../scenes/genesis-before-vr';
-import scientistBeforeVR from '../scenes/scientist-before-vr';
-import vrGame from '../scenes/vr-game';
-import endGame from '../scenes/end-game';
+import _ from "lodash";
+import waitToBegin from "../scenes/wait-to-begin";
+import State from "../state";
+import defensiveMechanismActivated from "../scenes/defensive-mechanism-activated";
+import buttonsGame from "../scenes/buttons-game";
+import mazeGame from "../scenes/maze-game";
+import numbersGame from "../scenes/numbers-game";
+import switchesGame from "../scenes/switches-game";
+import wifiGame from "../scenes/wifi-game";
+import textMessage from "../scenes/text-message";
+import scientistEncouragement from "../scenes/scientist-encouragement";
+import colorsGame from "../scenes/colors-game";
+import timerWithGenesis from "../scenes/timer-with-genesis";
+import genesisGreeting from "../scenes/genesis-greeting";
+import genesisBeforeVR from "../scenes/genesis-before-vr";
+import scientistBeforeVR from "../scenes/scientist-before-vr";
+import vrGame from "../scenes/vr-game";
+import endGame from "../scenes/end-game";
 
 interface sceneOrder {
   name: string;
@@ -30,87 +25,75 @@ interface sceneOrder {
 
 class ScenesService {
   order: sceneOrder[] = [
-    // {
-    //   name: 'Regestration',
-    //   value: regestration
-    // },
     {
-      name: 'WaitToBegin',
+      name: "WaitToBegin",
       value: waitToBegin
     },
     {
-      name: 'GenesisGreeting',
+      name: "GenesisGreeting",
       value: genesisGreeting
     },
     {
-      name: 'DefensiveMechanismActivated',
+      name: "DefensiveMechanismActivated",
       value: defensiveMechanismActivated
     },
     {
-      name: 'TimerWithGenesis',
+      name: "TimerWithGenesis",
       value: timerWithGenesis
     },
     {
-      name: 'ButtonsGame',
+      name: "ButtonsGame",
       value: buttonsGame,
-      clue: 'ButtonsGameClue'
+      clue: "ButtonsGameClue"
     },
     {
-      name: 'MazeGame',
+      name: "MazeGame",
       value: mazeGame,
-      clue: 'MazeGameClue'
+      clue: "MazeGameClue"
     },
     {
-      name: 'NumbersGame',
+      name: "NumbersGame",
       value: numbersGame,
-      clue: 'NumbersGameClue'
+      clue: "NumbersGameClue"
     },
     {
-      name: 'SwitchesGame',
+      name: "SwitchesGame",
       value: switchesGame,
-      clue: 'ChipGameClue'
+      clue: "ChipGameClue"
     },
-    // {
-    //   name: 'ChipGame',
-    //   value: chipGame
-    // },
     {
-      name: 'WifiGame',
+      name: "WifiGame",
       value: wifiGame
     },
     {
-      name: 'GenesisMalfunction',
-      value: genesisMalfunction
-    },
-    {
-      name: 'ScientistEncouragement',
+      name: "ScientistEncouragement",
       value: scientistEncouragement
     },
     {
-      name: 'ColorsGame',
+      name: "ColorsGame",
       value: colorsGame
     },
     {
-      name: 'TextMessage',
+      name: "TextMessage",
       value: textMessage,
-      clue: 'TextMessageClue'
+      clue: "TextMessageClue"
     },
     {
-      name: 'GenesisBeforeVR',
-      value: genesisBeforeVR,
+      name: "GenesisBeforeVR",
+      value: genesisBeforeVR
     },
     {
-      name: 'ScientistBeforeVR',
-      value: scientistBeforeVR,
+      name: "ScientistBeforeVR",
+      value: scientistBeforeVR
     },
     {
-      name: 'VRGame',
-      value: vrGame,
+      name: "VRGame",
+      value: vrGame
     },
     {
-      name: 'EndGame',
-      value: endGame,
-    },
+      name: "EndGame",
+      value: endGame
+    }
   ];
 
   constructor() {}
@@ -119,19 +102,32 @@ class ScenesService {
     return this.order;
   }
 
+  getScenesNameByOrder() {
+    return this.order.map(scene => scene.name);
+  }
+
   getNextSceneByName(currentSeceneName: string) {
-    const currentSceneIndex = _.findIndex(this.order, scene => scene.name === currentSeceneName);
+    const currentSceneIndex = _.findIndex(
+      this.order,
+      scene => scene.name === currentSeceneName
+    );
     return currentSceneIndex === this.order.length - 1
       ? this.order[0].value
       : this.order[currentSceneIndex + 1].value;
   }
 
   getSceneByName(currentSeceneName: string): State {
-    return _.find(this.order, scene => scene.name === currentSeceneName).value || undefined;
+    return (
+      _.find(this.order, scene => scene.name === currentSeceneName).value ||
+      undefined
+    );
   }
 
   getSceneClue(currentSeceneName: string): string {
-    const currentScene = _.find(this.order, scene => scene.name === currentSeceneName);
+    const currentScene = _.find(
+      this.order,
+      scene => scene.name === currentSeceneName
+    );
     return currentScene.clue;
   }
 }
