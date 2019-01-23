@@ -1,9 +1,7 @@
 node_modules
 dist
-build
 *.log
 yarn.lock
 .DS_Store
 .idea
-build/*
-build/
+build
