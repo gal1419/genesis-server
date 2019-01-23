@@ -18,6 +18,7 @@ int inPinsStates[LEN(inPins)];
 #define LED_LIGHTS_PIN 12
 int outPins[] = {LED_LIGHTS_PIN};
 #define MSG_BLUE_LIGHTS 98 //ascii for 'b'
+#define MSG_FLASH_LIGHTS 102 //ascii for 'f'
 #define MSG_RED_LIGHTS 114 //ascii for 'r'
 
 /* Setup */
@@ -29,6 +30,7 @@ void setup() {
   while (!Serial) {
     delay(100);
   }
+  flashLights();  
 }
 
 void setUpInputs() {
@@ -45,6 +47,12 @@ void setUpOutputs() {
   }
 }
 
+void flashLights() {
+  digitalWrite(LED_LIGHTS_PIN, HIGH);
+  delay(1000);
+  digitalWrite(LED_LIGHTS_PIN, LOW);  
+}
+
 /* Loop */
 
 void loop() {
@@ -56,10 +64,19 @@ void loop() {
 
 void handleMessagesFromComputer() {
   if (Serial.available() > 0) {
-    if (Serial.read() == MSG_BLUE_LIGHTS) {
+    int value = Serial.read();
+    if (value == MSG_BLUE_LIGHTS) {
       digitalWrite(LED_LIGHTS_PIN, LOW);
-    } else if (Serial.read() == MSG_RED_LIGHTS) {
+    } else if (value == MSG_RED_LIGHTS) {
       digitalWrite(LED_LIGHTS_PIN, HIGH);
+    } else if (value == MSG_FLASH_LIGHTS) {
+      delay(13000);
+      for (int i=0; i<35; i++) {
+        digitalWrite(LED_LIGHTS_PIN, HIGH);
+        delay(500);
+        digitalWrite(LED_LIGHTS_PIN, LOW);
+        delay(500);    
+      }
     }
   }  
 }
