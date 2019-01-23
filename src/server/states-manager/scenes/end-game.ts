@@ -1,5 +1,7 @@
 import State from '../state';
 import { StateManager } from '../services/state-manager';
+import arduinoService from '../../services/arduino-service';
+import { ArduinoEvents } from '../constans';
 
 class EndGame extends State {
   manager: StateManager;
@@ -14,7 +16,8 @@ class EndGame extends State {
 
   execute = (manager: StateManager): void => {
     this.manager = manager;
-    this.loadUnityScene(false, 'EndGame');
+    this.loadUnityScene(true, 'EndGame');
+    arduinoService.sendMessage(ArduinoEvents.FLASH);
   };
 
 }

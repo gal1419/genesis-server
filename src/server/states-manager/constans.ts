@@ -13,5 +13,6 @@ export enum ArduinoEvents {
   FrameChipRemoved = 'FrameChipRemoved',
   VRDrawerOpened = 'VRDrawerOpened',
   RED = 'r',
-  BLUE = 'b'
+  BLUE = 'b',
+  FLASH = 'f'
 }

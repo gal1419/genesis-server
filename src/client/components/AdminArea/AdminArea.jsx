@@ -54,16 +54,14 @@ class AdminArea extends Component {
 
   excuteVolumeCommand = command => {
     axios
-      .post(`/api/volume/`, {
-        command
-      })
+      .get(`/api/volume/${command}/`)
       .catch(err => {
         console.log(err);
       });
   };
 
   excuteShowCodeCommand = () => {
-    axios.post(`/api/show-code`).catch(err => {
+    axios.get(`/api/show-code`).catch(err => {
       console.log(err);
     });
   };
@@ -134,9 +132,16 @@ class AdminArea extends Component {
           <button
             className="admin-button admin-button-volume-command
               "
-            onClick={e => this.excuteShowCodeCommand}
+            onClick={e => this.excuteShowCodeCommand()}
           >
             ShowCode
+          </button>
+          <button
+            className="admin-button admin-button-volume-command
+              "
+            onClick={e => this.endScene()}
+          >
+            EndScene
           </button>
         </div>
       </div>

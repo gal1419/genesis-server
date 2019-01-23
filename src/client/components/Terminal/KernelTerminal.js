@@ -34,7 +34,7 @@ const createPaperRecord = (lines) => new OutputFactory.OutputRecord({
 
 const disabledCommandFunction = (state, opts) => {
   return {
-    output: createPaperRecord(['the profesor disabled this command'])
+    output: createPaperRecord(['The professor disabled this command'])
   };
 }
 

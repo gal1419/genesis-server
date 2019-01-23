@@ -10,6 +10,8 @@ class WaitToBegin extends State {
 
   execute = (manager: StateManager): void => {
     this.manager = manager;
+    UnityRestService.sendPrimaryUnityMessage('load-scene', Constans.LOAD_SCENE + ':WaitToBegin');
+    UnityRestService.sendSecondryUnityMessage('load-scene', Constans.LOAD_SCENE + ':WaitToBegin');
     UnityRestService.sendTheardUnityMessage('load-scene', Constans.LOAD_SCENE + ':ConsoleBlinking');
     arduinoService.sendMessage(ArduinoEvents.BLUE);
     // super.loadUnityScene(false);
