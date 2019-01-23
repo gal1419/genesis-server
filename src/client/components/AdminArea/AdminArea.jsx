@@ -6,6 +6,7 @@ class AdminArea extends Component {
     super(props);
     this.state = {
       scenes: [],
+      logs: [],
       arduinoEvents: [
         "SnakeDrawerOpened",
         "GlassesDrawerOpened",
@@ -14,19 +15,23 @@ class AdminArea extends Component {
         "VRDrawerOpened"
       ],
       volumeCommands: ["VolumeUp", "VolumeDown", "Mute"],
-      intervalId: null,
+      currentStateInterval: null,
       currentStateName: "Waiting for server response...."
     };
   }
 
   componentDidMount() {
-    const intervalId = setInterval(() => this.timer(), 5000);
+    const currentStateInterval = setInterval(
+      () => this.getCurrentState(),
+      5000
+    );
+    const logsInterval = setInterval(() => this.getNextLog(), 5000);
 
     axios
       .get("/api/scene-names-order")
       .then(scenes => {
         this.setState({
-          intervalId,
+          currentStateInterval,
           scenes: scenes.data
         });
       })
@@ -36,8 +41,8 @@ class AdminArea extends Component {
   }
 
   componentWillUnmount() {
-    const { intervalId } = this.state;
-    clearInterval(intervalId);
+    const { currentStateInterval } = this.state;
+    clearInterval(currentStateInterval);
   }
 
   excuteScene = scene => {
@@ -53,11 +58,9 @@ class AdminArea extends Component {
   };
 
   excuteVolumeCommand = command => {
-    axios
-      .get(`/api/volume/${command}/`)
-      .catch(err => {
-        console.log(err);
-      });
+    axios.get(`/api/volume/${command}/`).catch(err => {
+      console.log(err);
+    });
   };
 
   excuteShowCodeCommand = () => {
@@ -77,7 +80,7 @@ class AdminArea extends Component {
       });
   };
 
-  timer() {
+  getCurrentState() {
     axios
       .get("/api/current-state/")
       .then(data => {
@@ -89,8 +92,25 @@ class AdminArea extends Component {
       });
   }
 
+  getNextLog() {
+    axios
+      .get("/api/logs/")
+      .then(response => {
+        if (response.data) {
+          this.setState(prevState => {
+            return {
+              logs: [...prevState.logs, response.data.msg]
+            };
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   render() {
-    const { scenes, arduinoEvents, volumeCommands } = this.state;
+    const { scenes, arduinoEvents, volumeCommands, logs } = this.state;
 
     return (
       <div>
@@ -100,6 +120,7 @@ class AdminArea extends Component {
         <div className="scenes-area">
           {scenes.map(scene => (
             <button
+              key={scene}
               className="admin-button admin-button-scene"
               onClick={e => this.excuteScene(scene)}
             >
@@ -111,6 +132,7 @@ class AdminArea extends Component {
         <div className="arduino-events-area">
           {arduinoEvents.map(event => (
             <button
+              key={event}
               className="admin-button admin-button-arduino-event"
               onClick={e => this.excuteArdiunoEvent(event)}
             >
@@ -122,8 +144,8 @@ class AdminArea extends Component {
         <div className="volume-command-area">
           {volumeCommands.map(cmd => (
             <button
-              className="admin-button admin-button-volume-command
-              "
+              key={cmd}
+              className="admin-button admin-button-volume-command"
               onClick={e => this.excuteVolumeCommand(cmd)}
             >
               {cmd}
@@ -137,12 +159,17 @@ class AdminArea extends Component {
             ShowCode
           </button>
           <button
-            className="admin-button admin-button-volume-command
-              "
+            className="admin-button admin-button-volume-command"
             onClick={e => this.endScene()}
           >
             EndScene
           </button>
+        </div>
+
+        <div className="logs-area">
+          {logs.map((log, index) => {
+            return <div key={index}>{log}</div>;
+          })}
         </div>
       </div>
     );

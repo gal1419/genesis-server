@@ -1,6 +1,7 @@
-import State from '../state';
-import FirstScene from '../scenes/wait-to-begin';
-import InitialScene from '../scenes/regestration';
+import State from "../state";
+import FirstScene from "../scenes/wait-to-begin";
+import InitialScene from "../scenes/regestration";
+import logsService from "../../services/logs-service";
 
 export class StateManager {
   private static instance: StateManager;
@@ -19,7 +20,7 @@ export class StateManager {
     if (this._currentState) {
       this._currentState.destroy();
     }
-    console.log(`setting to state: ${state.getSceneName()}`);
+    logsService.handleLog(`setting to state: ${state.getSceneName()}`);
     this._currentState = state;
   }
 
@@ -33,11 +34,13 @@ export class StateManager {
 
   public endScene(request, response): void {
     this._currentState.moveToNextScene();
-    response.status(200).json({ msg: 'OK' });
+    response.status(200).json({ msg: "OK" });
   }
 
   public getCurrentStateName(request, response): void {
-    response.status(200).json({ currentStateName: this._currentState.getCurrentStateName() });
+    response
+      .status(200)
+      .json({ currentStateName: this._currentState.getCurrentStateName() });
   }
 
   public handleArduinoMessage(message: string) {

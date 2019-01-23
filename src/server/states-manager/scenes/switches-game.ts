@@ -1,8 +1,9 @@
-import State from '../state';
-import { StateManager } from '../services/state-manager';
-import scenesService from '../services/scenes-service';
-import arduinoService from '../../services/arduino-service';
-import { ArduinoEvents } from '../constans';
+import State from "../state";
+import { StateManager } from "../services/state-manager";
+import scenesService from "../services/scenes-service";
+import arduinoService from "../../services/arduino-service";
+import { ArduinoEvents } from "../constans";
+import logsService from "../../services/logs-service";
 
 class SwitchesGame extends State {
   manager: StateManager;
@@ -12,10 +13,10 @@ class SwitchesGame extends State {
 
   isArduinoEventReceived: boolean = false;
 
-  readonly sceneName = 'SwitchesGame';
+  readonly sceneName = "SwitchesGame";
 
   execute = (manager: StateManager): void => {
-    console.log('starting SwitchesGame');
+    logsService.handleLog("starting SwitchesGame");
     this.manager = manager;
     arduinoService.sendMessage(ArduinoEvents.BLUE);
     const clue = scenesService.getSceneClue(this.sceneName);
@@ -24,17 +25,17 @@ class SwitchesGame extends State {
     }, 1000 * 60 * 2);
 
     this.timer2 = setTimeout(() => {
-      super.loadUnityScene(false, 'ChipGameClue');
+      super.loadUnityScene(false, "ChipGameClue");
     }, 1000 * 60 * 4);
   };
 
   handleArduinoMessage = (data: string) => {
     if (data === ArduinoEvents.CoreDrawerOpened) {
-      console.log('got CoreDrawerOpened');
+      logsService.handleLog("got CoreDrawerOpened");
       clearTimeout(this.timer1);
       // super.loadUnityScene(false, 'GenesisAfterCoreDrawerOpened');
     } else if (data === ArduinoEvents.FrameChipRemoved) {
-      console.log('got FrameChipRemoved');
+      logsService.handleLog("got FrameChipRemoved");
       arduinoService.sendMessage(ArduinoEvents.RED);
       clearTimeout(this.timer1);
       clearTimeout(this.timer2);

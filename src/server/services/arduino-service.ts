@@ -2,6 +2,7 @@ import SerialPort from 'serialport';
 import Readline from '@serialport/parser-readline';
 import _ from 'lodash';
 import StateManager from '../states-manager/services/state-manager';
+import logsService from './logs-service';
 
 export type ArduinoListenerType = (data: string) => any;
 
@@ -28,21 +29,21 @@ class ArduinoService {
     this.parser = this.serialInstance.pipe(new Readline({ delimiter: '\r\n' }));
 
     this.parser.on('data', (data) => {
-      console.log(`Data: ${data}`);
+      logsService.handleLog(`Data: ${data}`);
       this.stateManager.handleArduinoMessage(data);
     });
 
     this.serialInstance.on('error', (err) => {
-      console.log('Error: ', err.message);
+      logsService.handleLog(`Error: ${err.message}`);
     });
   }
 
   sendMessage(message: string) {
     this.serialInstance.write(message, (err) => {
       if (err) {
-        return console.log('Error on write: ', err.message);
+        return logsService.handleLog(`Error on write: ${err.message}`);
       }
-      console.log(`Arduino message written: ${message}`);
+      logsService.handleLog(`Arduino message written: ${message}`);
     });
   }
 }

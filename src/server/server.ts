@@ -1,33 +1,33 @@
-import express from 'express';
-import socketIO from 'socket.io';
-import compression from 'compression';
-import session from 'express-session';
-import bodyParser from 'body-parser';
-import logger from 'morgan';
-import chalk from 'chalk';
-import errorHandler from 'errorhandler';
-import lusca from 'lusca';
-import dotenv from 'dotenv';
-import flash from 'express-flash';
-import path from 'path';
-import mongoose from 'mongoose';
-import passport from 'passport';
-import expressValidator from 'express-validator';
-import expressStatusMonitor from 'express-status-monitor';
-import sass from 'node-sass-middleware';
-import * as http from 'http';
-import arduinoService from './services/arduino-service';
-import commandsService from './services/commands-service';
-import StateManager from './states-manager/services/state-manager';
-import scenesService from './states-manager/services/scenes-service';
+import express from "express";
+import socketIO from "socket.io";
+import compression from "compression";
+import session from "express-session";
+import bodyParser from "body-parser";
+import logger from "morgan";
+import chalk from "chalk";
+import errorHandler from "errorhandler";
+import lusca from "lusca";
+import dotenv from "dotenv";
+import flash from "express-flash";
+import path from "path";
+import mongoose from "mongoose";
+import passport from "passport";
+import expressValidator from "express-validator";
+import expressStatusMonitor from "express-status-monitor";
+import sass from "node-sass-middleware";
+import * as http from "http";
+import arduinoService from "./services/arduino-service";
+import commandsService from "./services/commands-service";
+import StateManager from "./states-manager/services/state-manager";
+import scenesService from "./states-manager/services/scenes-service";
 
 /**
  * API keys and Passport configuration.
  */
-import apiRouts from './routes/api';
-import authRouts from './routes/user';
+import apiRouts from "./routes/api";
+import authRouts from "./routes/user";
 
-const MongoStore = require('connect-mongo')(session);
+const MongoStore = require("connect-mongo")(session);
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
@@ -43,7 +43,7 @@ dotenv.config();
 // mongoose.connect(process.env.MONGODB_URI);
 // mongoose.connection.on('error', (err: any) => {
 //   console.error(err);
-//   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
+//   logsService.handleLog('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
 //   process.exit();
 // });
 
@@ -57,19 +57,19 @@ const io = socketIO(server);
 /**
  * Express configuration.
  */
-app.set('host', process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0');
-app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT);
-app.use(express.static('dist'));
+app.set("host", process.env.OPENSHIFT_NODEJS_IP || "0.0.0.0");
+app.set("port", process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT);
+app.use(express.static("dist"));
 app.use(expressStatusMonitor());
 app.use(compression());
 app.use(
   sass({
-    src: path.join(__dirname, 'public'),
-    dest: path.join(__dirname, 'public')
+    src: path.join(__dirname, "public"),
+    dest: path.join(__dirname, "public")
   })
 );
 
-app.use(logger('dev'));
+app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
@@ -79,7 +79,7 @@ app.use(
     resave: true,
     saveUninitialized: true,
     secret: process.env.SESSION_SECRET,
-    cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 * 2 },
+    cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 * 2 }
     // store: new MongoStore({
     //   url: process.env.MONGODB_URI,
     //   autoReconnect: true
@@ -94,9 +94,9 @@ app.use(flash());
 //   lusca.csrf()(req, res, next);
 // });
 
-app.use(lusca.xframe('SAMEORIGIN'));
+app.use(lusca.xframe("SAMEORIGIN"));
 app.use(lusca.xssProtection(true));
-app.disable('x-powered-by');
+app.disable("x-powered-by");
 app.use((req: any, res: any, next: any) => {
   res.locals.user = req.user;
   next();
@@ -105,17 +105,17 @@ app.use((req: any, res: any, next: any) => {
 /**
  * App routes.
  */
-app.use('/api', apiRouts);
-app.use('/user', authRouts);
+app.use("/api", apiRouts);
+app.use("/user", authRouts);
 
-app.get('*', (request: any, response: any) => {
-  response.sendFile(path.resolve(__dirname, '../dist', 'index.html'));
+app.get("*", (request: any, response: any) => {
+  response.sendFile(path.resolve(__dirname, "../dist", "index.html"));
 });
 
 /**
  * Error Handler.
  */
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === "development") {
   // only use in development
   app.use(errorHandler());
 }
@@ -127,25 +127,24 @@ arduinoService.initialize();
 
 commandsService.initialize();
 
-
 /**
  * Init State Manager
  */
 const stateManager = StateManager.getInstance();
-const waitToBegin = scenesService.getSceneByName('WaitToBegin');
+const waitToBegin = scenesService.getSceneByName("WaitToBegin");
 stateManager.setState(waitToBegin);
 stateManager.execute();
 /**
  * Start server.
  */
-server.listen(app.get('port'), () => {
+server.listen(app.get("port"), () => {
   console.log(
-    '%s App is running at http://localhost:%d in %s mode',
-    chalk.green('✓'),
-    app.get('port'),
-    app.get('env')
+    "%s App is running at http://localhost:%d in %s mode",
+    chalk.green("✓"),
+    app.get("port"),
+    app.get("env")
   );
-  console.log('  Press CTRL-C to stop\n');
+  console.log("  Press CTRL-C to stop\n");
 });
 
 export default app;

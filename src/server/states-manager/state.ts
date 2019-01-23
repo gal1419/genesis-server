@@ -3,6 +3,7 @@ import UnityRestService from '../services/unity-rest-service';
 
 import { Constans } from './constans';
 import scenesService from './services/scenes-service';
+import logsService from '../services/logs-service';
 
 export default abstract class State {
   manager: StateManager;
@@ -26,9 +27,9 @@ export default abstract class State {
   }
 
   moveToNextScene() {
-    console.log(`SceneEnd: ${this.sceneName}`);
+    logsService.handleLog(`SceneEnd: ${this.sceneName}`);
     const nextScene = scenesService.getNextSceneByName(this.sceneName);
-    console.log(`nextScene: ${nextScene.sceneName}`);
+    logsService.handleLog(`nextScene: ${nextScene.sceneName}`);
     this.manager.setState(nextScene);
     this.manager.execute();
   }
@@ -45,11 +46,11 @@ export default abstract class State {
   }
 
   handleArduinoMessage(data: string) {
-    console.log(`Arduino message recive: ${data}`);
+    logsService.handleLog(`Arduino message recive: ${data}`);
   }
 
   handleCommand(data: string) {
-    console.log(`Command recive: ${data}`);
+    logsService.handleLog(`Command recive: ${data}`);
     return false;
   }
 
