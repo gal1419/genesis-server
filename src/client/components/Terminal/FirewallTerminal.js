@@ -34,13 +34,13 @@ const createPaperRecord = (lines) => new OutputFactory.OutputRecord({
 
 const disabledCommandFunction = (state, opts) => {
   return {
-    output: createPaperRecord(['The professor disabled this command'])
+    output: createPaperRecord(['The professor disabled this command, choose better'])
   };
 }
 
 const firewallHelpFunction = (state, opts) => {
   return {
-    output: createPaperRecord(['resume_firewall - to recover any problem in the firewall system', 'restart_firewall - to restart the firewall system', 'shutdown_firewall - to shutdown firewall system'])
+    output: createPaperRecord(['resume_firewall - to recover any problem in the firewall system', 'restart_firewall - to restart the firewall system', 'shutdown_firewall - to shut down the firewall system'])
   };
 }
 
@@ -81,7 +81,7 @@ class FirewallTerminal extends Component {
         function: (state, opts) => {
           if(this.commandsData.shutdown_firewall) {
             return {
-              output: createPaperRecord(['no need to shutdown the firewall again, move on to other systems'])
+              output: createPaperRecord(['No need to shut down the firewall again, move on to other systems'])
             };
           }
           var elem = document.getElementsByClassName('terminalInput');
@@ -97,7 +97,7 @@ class FirewallTerminal extends Component {
         function: (state, opts) => {
           if(this.commandsData.shutdown_firewall) {
             return {
-              output: createPaperRecord(['no need to shutdown the firewall again, move on to other systems'])
+              output: createPaperRecord(['No need to shut down the firewall again, move on to other systems'])
             };
           }
           var elem = document.getElementsByClassName('terminalInput');
@@ -130,7 +130,7 @@ class FirewallTerminal extends Component {
       .catch((err) => {
         console.log(err);
       });
-      return 'you started shut down of cure ' + firewallNumber;
+      return '' + firewallNumber;
   }
 
   getCommands() {

@@ -34,13 +34,13 @@ const createPaperRecord = (lines) => new OutputFactory.OutputRecord({
 
 const disabledCommandFunction = (state, opts) => {
   return {
-    output: createPaperRecord(['The professor disabled this command'])
+    output: createPaperRecord(['The professor disabled this command, choose better'])
   };
 }
 
 const kernelHelpFunction = (state, opts) => {
   return {
-    output: createPaperRecord(['resume_kernel - to recover any problem in the kernel system', 'restart_kernel - to restart the kernel system', 'shutdown_kernel - to shutdown kernel system'])
+    output: createPaperRecord(['resume_kernel - to recover any problem in the kernel system', 'restart_kernel - to restart the kernel system', 'shutdown_kernel - to shut down the kernel system'])
   };
 }
 
@@ -81,7 +81,7 @@ class KernelTerminal extends Component {
         function: (state, opts) => {
           if(this.commandsData.shutdown_kernel) {
             return {
-              output: createPaperRecord(['no need to shutdown the kernel again, move on to other systems'])
+              output: createPaperRecord(['No need to shut down the kernel again, move on to other systems'])
             };
           }
           var elem = document.getElementsByClassName('terminalInput');
@@ -97,7 +97,7 @@ class KernelTerminal extends Component {
         function: (state, opts) => {
           if(this.commandsData.shutdown_kernel) {
             return {
-              output: createPaperRecord(['no need to shutdown the kernel again, move on to other systems'])
+              output: createPaperRecord(['No need to shut down the kernel again, move on to other systems'])
             };
           }
           var elem = document.getElementsByClassName('terminalInput');
@@ -130,7 +130,7 @@ class KernelTerminal extends Component {
       .catch((err) => {
         console.log(err);
       });
-      return 'you started shut down of cure ' + kernelNumber;
+      return '' + kernelNumber;
   }
 
   getCommands() {

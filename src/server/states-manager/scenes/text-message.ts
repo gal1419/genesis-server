@@ -21,7 +21,7 @@ class TextMessage extends State {
     const clue = scenesService.getSceneClue(this.sceneName);
     this.timer = setTimeout(() => {
       super.loadUnityScene(false, clue);
-    }, 1000 * 30);
+    }, 1000 * 60 * 3);
     UnityRestService.sendSecondryUnityMessage('load-scene', Constans.LOAD_SCENE + ':Timer');
     this.loadUnityScene(false, 'TextMessage');
   };

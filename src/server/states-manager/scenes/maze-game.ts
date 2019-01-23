@@ -19,7 +19,7 @@ class MazeGame extends State {
     const clue = scenesService.getSceneClue(this.sceneName);
     this.timer = setTimeout(() => {
       super.loadUnityScene(false, clue);
-    }, 1000 * 3);
+    }, 1000 * 60 * 2);
   };
 
   handleArduinoMessage(data: string) {

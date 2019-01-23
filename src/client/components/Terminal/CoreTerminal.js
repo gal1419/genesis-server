@@ -34,13 +34,13 @@ const createPaperRecord = (lines) => new OutputFactory.OutputRecord({
 
 const disabledCommandFunction = (state, opts) => {
   return {
-    output: createPaperRecord(['The professor disabled this command'])
+    output: createPaperRecord(['The professor disabled this command, choose better'])
   };
 }
 
 const coreHelpFunction = (state, opts) => {
   return {
-    output: createPaperRecord(['resume_core - to recover any problem in the core system', 'restart_core - to restart the core system', 'shutdown_core - to shutdown core system'])
+    output: createPaperRecord(['resume_core - to recover any problem in the core system', 'restart_core - to restart the core system', 'shutdown_core - to shut down the core system'])
   };
 }
 
@@ -81,7 +81,7 @@ class CoreTerminal extends Component {
         function: (state, opts) => {
           if(this.commandsData.shutdown_core) {
             return {
-              output: createPaperRecord(['no need to shutdown the core again, move on to other systems'])
+              output: createPaperRecord(['No need to shut down the core again, move on to other systems'])
             };
           }
           var elem = document.getElementsByClassName('terminalInput');
@@ -97,7 +97,7 @@ class CoreTerminal extends Component {
         function: (state, opts) => {
           if(this.commandsData.shutdown_core) {
             return {
-              output: createPaperRecord(['no need to shutdown the core again, move on to other systems'])
+              output: createPaperRecord(['No need to shut down the core again, move on to other systems'])
             };
           }
           var elem = document.getElementsByClassName('terminalInput');
@@ -130,7 +130,7 @@ class CoreTerminal extends Component {
       .catch((err) => {
         console.log(err);
       });
-      return 'you started shut down of cure ' + coreNumber;
+      return ''  + coreNumber;
   }
 
   getCommands() {
