@@ -25,7 +25,7 @@ class AdminArea extends Component {
       () => this.getCurrentState(),
       5000
     );
-    const logsInterval = setInterval(() => this.getNextLog(), 5000);
+    const logsInterval = setInterval(() => this.getNextLog(), 500);
 
     axios
       .get("/api/scene-names-order")

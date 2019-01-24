@@ -40,14 +40,19 @@ class WifiGame extends State {
       valueToUnity: 2
     });
   };
+
+
   handleCommand(data: string) {
     logsService.handleLog(`Command received: ${data}`);
     let commandObj = this.commandsMap.get(data);
     if (!commandObj.didRun) {
-      UnityRestService.sendPrimaryUnityMessage(
-        "load-scene",
-        "RebootAndHack:" + commandObj.valueToUnity
-      );
+
+      [0, 1, 2].forEach((value) => {
+        UnityRestService.sendPrimaryUnityMessage(
+          "load-scene",
+          `RebootAndHack:${value}`
+        );
+      })
       commandObj.didRun = true;
       this.commandsMap.set(data, commandObj);
       return true;
