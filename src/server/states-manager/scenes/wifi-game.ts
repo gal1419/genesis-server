@@ -21,42 +21,21 @@ class WifiGame extends State {
 
   execute = (manager: StateManager): void => {
     this.manager = manager;
-    this.resetCommandsMap();
-    commandService.resetCommandsInstance();
     this.loadUnityScene(false, "WifiGame");
   };
 
-  resetCommandsMap = (): void => {
-    this.commandsMap.set("shutdown_core", {
-      didRun: false,
-      valueToUnity: 0
-    });
-    this.commandsMap.set("shutdown_kernel", {
-      didRun: false,
-      valueToUnity: 1
-    });
-    this.commandsMap.set("shutdown_firewall", {
-      didRun: false,
-      valueToUnity: 2
-    });
-  };
-
-
   handleCommand(data: string) {
     logsService.handleLog(`Command received: ${data}`);
-    let commandObj = this.commandsMap.get(data);
-    if (!commandObj.didRun) {
 
-      [0, 1, 2].forEach((value) => {
+    if (data === "shutdown_firewall") {
+      [0, 1, 2].forEach(value => {
         UnityRestService.sendPrimaryUnityMessage(
           "load-scene",
           `RebootAndHack:${value}`
         );
-      })
-      commandObj.didRun = true;
-      this.commandsMap.set(data, commandObj);
-      return true;
+      });
     }
+    return true;
   }
 }
 
