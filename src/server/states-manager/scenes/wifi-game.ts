@@ -27,7 +27,7 @@ class WifiGame extends State {
   handleCommand(data: string) {
     logsService.handleLog(`Command received: ${data}`);
 
-    if (data === "shutdown_firewall") {
+    if (data === "shutdown_core") {
       [0, 1, 2].forEach(value => {
         UnityRestService.sendPrimaryUnityMessage(
           "load-scene",
