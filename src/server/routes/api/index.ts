@@ -107,4 +107,15 @@ apiRouter.get("/logs", (req, res) => {
   res.status(200).json(null);
 });
 
+apiRouter.get("/reset-timer/:minutes", (req, res) => {
+  const { minutes } = req.params;
+
+  if (minutes) {
+    unityRestService.sendPrimaryUnityMessage(
+      "load-scene",
+      `ResetTimer:${minutes}`
+    );
+  }
+});
+
 export default apiRouter;

@@ -4,8 +4,12 @@ import axios from "axios";
 class AdminArea extends Component {
   constructor(props) {
     super(props);
+
+    this.minutesInput = React.createRef();
+
     this.state = {
       scenes: [],
+      minutes: 30,
       logs: [],
       arduinoEvents: [
         "SnakeDrawerOpened",
@@ -109,8 +113,20 @@ class AdminArea extends Component {
       });
   }
 
+  onMinutesChange(event) {
+    this.setState({
+      minutes: event.target.value
+    });
+  }
+
+  resetTimer() {
+    axios.get(`/api/reset-timer/${this.state.minutes}`).catch(err => {
+      console.log(err);
+    });
+  }
+
   render() {
-    const { scenes, arduinoEvents, volumeCommands, logs } = this.state;
+    const { scenes, arduinoEvents, volumeCommands, logs, minutes } = this.state;
 
     return (
       <div>
@@ -164,6 +180,26 @@ class AdminArea extends Component {
           >
             EndScene
           </button>
+          <div>
+            <input
+              type="number"
+              name="minutes"
+              className="admin-button"
+              min="0"
+              max="30"
+              value={minutes}
+              ref={minutesInput => {
+                this.minutesInput = minutesInput;
+              }}
+              onChange={this.onMinutesChange.bind(this)}
+            />
+            <button
+              className="admin-button admin-button-volume-command"
+              onClick={e => this.resetTimer()}
+            >
+              Reset Timer
+            </button>
+          </div>
         </div>
 
         <div className="logs-area">
