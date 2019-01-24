@@ -33,10 +33,10 @@ class ScenesService {
       name: "GenesisGreeting",
       value: genesisGreeting
     },
-    {
-      name: "DefensiveMechanismActivated",
-      value: defensiveMechanismActivated
-    },
+    // {
+    //   name: "DefensiveMechanismActivated",
+    //   value: defensiveMechanismActivated
+    // },
     {
       name: "TimerWithGenesis",
       value: timerWithGenesis
@@ -59,7 +59,7 @@ class ScenesService {
     {
       name: "SwitchesGame",
       value: switchesGame,
-      clue: "ChipGameClue"
+      clue: "SwitchesGameClue"
     },
     {
       name: "WifiGame",

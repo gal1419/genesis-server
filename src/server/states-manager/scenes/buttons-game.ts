@@ -2,6 +2,7 @@ import State from '../state';
 import { StateManager } from '../services/state-manager';
 import scenesService from '../services/scenes-service';
 import { ArduinoEvents } from '../constans';
+import unityRestService from '../../services/unity-rest-service';
 
 class ButtonsGame extends State {
   manager: StateManager;
@@ -14,7 +15,9 @@ class ButtonsGame extends State {
 
   execute = (manager: StateManager): void => {
     this.manager = manager;
-    this.isArduinoEventReceived = false
+    this.isArduinoEventReceived = false;
+    unityRestService.sendPrimaryUnityMessage("load-scene", "ResetTimer:30");
+    unityRestService.sendSecondryUnityMessage("load-scene", "ResetTimer:30");
     const clue = scenesService.getSceneClue(this.sceneName);
     this.timer = setTimeout(() => {
       super.loadUnityScene(false, clue);

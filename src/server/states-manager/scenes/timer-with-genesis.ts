@@ -12,9 +12,6 @@ class TimerWithGenesis extends State {
 
   execute = (manager: StateManager): void => {
     this.manager = manager;
-    UnityRestService.sendPrimaryUnityMessage("load-scene", "ResetTimer:30");
-    UnityRestService.sendSecondryUnityMessage("load-scene", "ResetTimer:30");
-
     super.loadUnityScene(false);
     UnityRestService.sendSecondryUnityMessage(
       "load-scene",
