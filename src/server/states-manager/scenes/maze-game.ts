@@ -9,12 +9,14 @@ class MazeGame extends State {
   timer: NodeJS.Timeout;
 
   isArduinoEventReceived: boolean = false;
+  isArduinoEventReceivedSnake: boolean = false;
 
   readonly sceneName = 'MazeGame';
 
   execute = (manager: StateManager): void => {
     this.manager = manager;
     this.isArduinoEventReceived = false;
+    this.isArduinoEventReceivedSnake = false;
     super.loadUnityScene(false);
     const clue = scenesService.getSceneClue(this.sceneName);
     this.timer = setTimeout(() => {
@@ -27,6 +29,10 @@ class MazeGame extends State {
       this.isArduinoEventReceived = true;
       clearTimeout(this.timer);
       super.loadUnityScene(false, 'GenesisAfterMazeDrawerOpened');
+    }
+    if (data === ArduinoEvents.SnakeDrawerOpened && !this.isArduinoEventReceivedSnake) {
+      this.isArduinoEventReceivedSnake = true;
+      super.loadUnityScene(false, 'GenesisAfterSnakeDrawerOpened');
     }
   }
   destroy = (): void => {

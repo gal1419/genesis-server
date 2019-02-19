@@ -30,14 +30,10 @@ class UnityRestService {
     return this.sendMessage(url, body);
   }
 
-  sendKinectMessage(event: string) {
-    const url = `http://${process.env.PRIMARY_UNITY_IP}:${
-      process.env.KINECT_IP_PORT
-    }/Temporary_Listen_Addresses/${event}/`;
-    logsService.handleLog("sending to kinect: " + url);
-    return request.get({
-      url
-    });
+  sendFaceRecognitionMessage(event: string) {
+    const url = `http://${process.env.PRIMARY_UNITY_IP}/Temporary_Listen_Addresses/${event}/`;
+    logsService.handleLog("Sending to face recognition service: " + url);
+    this.sendMessage(url, '');
   }
 
   sendMessage(url: string, body: string) {

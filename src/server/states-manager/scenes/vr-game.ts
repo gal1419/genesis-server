@@ -1,5 +1,6 @@
 import State from '../state';
 import { StateManager } from '../services/state-manager';
+import unityRestService from '../../services/unity-rest-service';
 
 class VRGame extends State {
   manager: StateManager;
@@ -15,6 +16,7 @@ class VRGame extends State {
   execute = (manager: StateManager): void => {
     this.manager = manager;
     this.loadUnityScene(false, 'VRGame');
+    unityRestService.sendFaceRecognitionMessage('stop');
   };
 
 }

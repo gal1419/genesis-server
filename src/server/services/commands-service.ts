@@ -18,7 +18,7 @@ class CommandsService {
     const userUniqueness = req.params.user_uniqueness;
     const result = this.stateManager.handleCommand(command);
     if(result) {
-      this.commandsInstance[command] = {userUniqueness: userUniqueness};
+      // this.commandsInstance[command] = {userUniqueness: userUniqueness};
     }
     res.json({ commands: this.commandsInstance })
   }

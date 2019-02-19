@@ -13,7 +13,7 @@ class GenesisGreeting extends State {
   execute = (manager: StateManager): void => {
     this.manager = manager;
     super.loadUnityScene(true);
-    UnityRestService.sendKinectMessage('start');
+    UnityRestService.sendFaceRecognitionMessage('start');
   };
 }
 
